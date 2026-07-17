@@ -5,7 +5,7 @@ Item {
     id: page
     width: parent ? parent.width : 400
     height: parent ? parent.height : 220
-    property string title: "FUEL"
+    property string title: i18n["hud.fuel.title"] || "FUEL"
 
     /* ---------- DATA ---------- */
     property string currValue: "---"
@@ -66,7 +66,7 @@ Item {
                 Text {
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.verticalCenterOffset: 4
-                    text: "laps"
+                    text: i18n["hud.fuel.laps"] || "laps"
                     font.family: "Formula1"
                     font.pixelSize: 11
                     color: dimTextColor
@@ -90,9 +90,9 @@ Item {
             MetricCell {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                label: "RATE"
+                label: i18n["hud.fuel.rate"] || "RATE"
                 value: currValue
-                unit: "kg/lap"
+                unit: i18n["hud.fuel.kg_per_lap"] || "kg/lap"
                 accent: true
             }
 
@@ -101,9 +101,9 @@ Item {
             MetricCell {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                label: "LAST LAP"
+                label: i18n["hud.fuel.last_lap"] || "LAST LAP"
                 value: lastValue
-                unit: "kg"
+                unit: i18n["hud.fuel.kg"] || "kg"
             }
 
             Rectangle { Layout.preferredWidth: 1; Layout.fillHeight: true; color: borderColor }
@@ -111,9 +111,9 @@ Item {
             MetricCell {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                label: "TGT AVG"
+                label: i18n["hud.fuel.tgt_avg"] || "TGT AVG"
                 value: tgtAvgValue
-                unit: "kg/lap"
+                unit: i18n["hud.fuel.kg_per_lap"] || "kg/lap"
             }
 
             Rectangle { Layout.preferredWidth: 1; Layout.fillHeight: true; color: borderColor }
@@ -121,9 +121,9 @@ Item {
             MetricCell {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                label: "TGT NEXT"
+                label: i18n["hud.fuel.tgt_next"] || "TGT NEXT"
                 value: tgtNextValue
-                unit: "kg"
+                unit: i18n["hud.fuel.kg"] || "kg"
             }
         }
     }

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% if port_info %}Pits n' Giggles - {{ port_info }}{% elif live_data_mode %}Pits n' Giggles - Live v{{ version }}{% else %}Pits n' Giggles - Save v{{ version }}{% endif %}</title>
+    <title>{% if port_info %}{{ i18n.tr('frontend.brand_driver_view') }} - {{ port_info }}{% elif live_data_mode %}{{ i18n.tr('frontend.brand_driver_view') }} - Live v{{ version }}{% else %}{{ i18n.tr('frontend.brand_driver_view') }} - Save v{{ version }}{% endif %}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700&display=swap" rel="stylesheet">
@@ -31,31 +31,34 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js" integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/msgpack-lite@0.1.26/dist/msgpack.min.js" integrity="sha384-MWenGdy0IO91D1IxYZ3jomrUiVLYQO2MbFrzI61UCdaN80K3Ys3u8eLu/ZDlaoIm" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js" integrity="sha384-1n3JwVeqLzmKF9uu5W4+kfasynDhf+EmT6Hns9p2MChdjzpTJrtd8tlzi+Y3RGn3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js" integrity="sha384-1n3JwVeqLzmKF9uu5W4+kfasynDhf+EmT6Hns9p2MchdjzpTJrtd8tlzi+Y3RGn3" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tinycolor/1.4.2/tinycolor.min.js" integrity="sha384-AZ8EPX4FWLU/SIr5Xfoem6KYnSN7QhmrnEZIzF2NjoDoX9PV9GMuA0XCI3jndPym" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/ag-grid-community@35.3.0/dist/ag-grid-community.min.js" integrity="sha384-GbvRvkQNhoaZATsk65Au49OqhW8NGyoGqeziEqwOFDjR5WDBwx1w1QwlI/enfu+g" crossorigin="anonymous"></script>
+    <!-- i18n: embed translations and load helper -->
+    <script>window.__i18n = {{ i18n_dict() | tojson | safe }};</script>
+    <script src="{{ url_for('static', filename='js/i18n.js') }}"></script>
   </head>
   <body>
     <div class="dashboard-container">
       <header class="dashboard-header">
         <div class="track-info">
-          <h1 class="track-name" id="track-name">PITS N' GIGGLES</h1>
+          <h1 class="track-name" id="track-name">{{ i18n.tr('frontend.brand') }}</h1>
           <div class="conditions">
-            <div class="condition-item" data-bs-toggle="tooltip" data-bs-title="Track Temperature">
+            <div class="condition-item" data-bs-toggle="tooltip" data-bs-title="{{ i18n.tr('frontend.tooltip.track_temp') }}">
               <i class="fa-solid fa-road condition-icon"></i>
               <span id="track-temp" class="condition-value"></span>
             </div>
-            <div class="condition-item" data-bs-toggle="tooltip" data-bs-title="Air Temperature">
+            <div class="condition-item" data-bs-toggle="tooltip" data-bs-title="{{ i18n.tr('frontend.tooltip.air_temp') }}">
               <i class="bi bi-thermometer-half condition-icon"></i>
               <span id="air-temp" class="condition-value"></span>
             </div>
-            <div class="condition-item" data-bs-toggle="tooltip" data-bs-title="Pit Lane Speed Limit">
+            <div class="condition-item" data-bs-toggle="tooltip" data-bs-title="{{ i18n.tr('frontend.tooltip.pit_speed_limit') }}">
               <div id="pit-speed-limit" class="speed-limit-sign"></div>
             </div>
           </div>
         </div>
         <div class="fastest-lap">
-          <span class="fastest-lap-label">FASTEST LAP</span>
+          <span class="fastest-lap-label">{{ i18n.tr('frontend.fastest_lap.label') }}</span>
           <span class="fastest-lap-time" id="fastestLapTimeSpan"></span>
           <span class="fastest-lap-driver" id="fastestLapNameSpan"></span>
           <span class="fastest-lap-tyre" id="fastestLapTyreSpan"></span>
@@ -65,21 +68,21 @@
             <!-- Populated by JavaScript -->
           </div>
           {% if live_data_mode %}
-          <a id="eng-view-btn" class="settings-button" href="/eng-view" data-bs-toggle="tooltip" data-bs-title="Switch to race engineer view">
+          <a id="eng-view-btn" class="settings-button" href="/eng-view" data-bs-toggle="tooltip" data-bs-title="{{ i18n.tr('frontend.tooltip.switch_engineer') }}">
               <i class="bi bi-wrench-adjustable"></i>
           </a>
           {% endif %}
-          <button id="race-stats-btn" class="settings-button" data-bs-toggle="tooltip" data-bs-title="Show Race Stats">
+          <button id="race-stats-btn" class="settings-button" data-bs-toggle="tooltip" data-bs-title="{{ i18n.tr('frontend.tooltip.show_race_stats') }}">
             🏁
           </button>
-          <button id="column-config-btn" class="settings-button" title="Configure visible columns">
+          <button id="column-config-btn" class="settings-button" title="{{ i18n.tr('frontend.tooltip.configure_columns') }}">
             <i class="bi bi-toggles"></i>
           </button>
-          <button id="settings-btn" class="settings-button" data-bs-toggle="tooltip" data-bs-title="Configure UI settings">
+          <button id="settings-btn" class="settings-button" data-bs-toggle="tooltip" data-bs-title="{{ i18n.tr('frontend.tooltip.configure_ui') }}">
             <i class="bi bi-gear-fill"></i>
           </button>
           {% if port_info %}
-          <span class="port-badge" title="Multi-session port identifier">📍 {{ port_info }}</span>
+          <span class="port-badge" title="{{ i18n.tr('frontend.tooltip.multi_session_port') }}">📍 {{ port_info }}</span>
           {% endif %}
         </div>
       </header>
@@ -95,18 +98,18 @@
           <table class="telemetry-table" id="race-table">
             <thead>
               <tr>
-                <th>POS</th>
-                <th>DRIVER</th>
-                <th id="delta-th" data-column-group="delta" data-bs-toggle="tooltip">DELTA 🛈</th>
-                <th data-column-group="ers">ERS</th>
-                <th data-column-group="warns-pens">WARNS/PENS</th>
-                <th id="best-lap-th" class="best-lap" data-column-group="best-lap" data-bs-toggle="tooltip">BEST LAP 🛈</th>
-                <th id="last-lap-th" class="last-lap" data-column-group="last-lap" data-bs-toggle="tooltip">LAST LAP 🛈</th>
-                <th id="curr-lap-th" class="curr-lap" data-column-group="current-lap" data-bs-toggle="tooltip">CURRENT LAP</th>
-                <th id="tyre-info-th" data-column-group="tyre-info" data-bs-toggle="tooltip">TYRE INFO 🛈</th>
-                <th id="wear-prediction-th" data-column-group="wear-prediction">WEAR PREDICTION</th>
-                <th data-column-group="damage">DAMAGE</th>
-                <th id="fuel-info-th" data-column-group="fuel" data-bs-toggle="tooltip">FUEL 🛈</th>
+                <th>{{ i18n.tr('frontend.table.header_pos') }}</th>
+                <th>{{ i18n.tr('frontend.table.header_driver') }}</th>
+                <th id="delta-th" data-column-group="delta" data-bs-toggle="tooltip">{{ i18n.tr('frontend.table.header_delta') }} 🛈</th>
+                <th data-column-group="ers">{{ i18n.tr('frontend.table.header_ers') }}</th>
+                <th data-column-group="warns-pens">{{ i18n.tr('frontend.table.header_warns_pens') }}</th>
+                <th id="best-lap-th" class="best-lap" data-column-group="best-lap" data-bs-toggle="tooltip">{{ i18n.tr('frontend.table.header_best_lap') }} 🛈</th>
+                <th id="last-lap-th" class="last-lap" data-column-group="last-lap" data-bs-toggle="tooltip">{{ i18n.tr('frontend.table.header_last_lap') }} 🛈</th>
+                <th id="curr-lap-th" class="curr-lap" data-column-group="current-lap" data-bs-toggle="tooltip">{{ i18n.tr('frontend.table.header_current_lap') }}</th>
+                <th id="tyre-info-th" data-column-group="tyre-info" data-bs-toggle="tooltip">{{ i18n.tr('frontend.table.header_tyre_info') }} 🛈</th>
+                <th id="wear-prediction-th" data-column-group="wear-prediction">{{ i18n.tr('frontend.table.header_wear_prediction') }}</th>
+                <th data-column-group="damage">{{ i18n.tr('frontend.table.header_damage') }}</th>
+                <th id="fuel-info-th" data-column-group="fuel" data-bs-toggle="tooltip">{{ i18n.tr('frontend.table.header_fuel') }} 🛈</th>
               </tr>
             </thead>
             <tbody id="telemetry-data">
@@ -114,7 +117,7 @@
             </tbody>
           </table>
           <div id="all-columns-hidden-hint" class="all-columns-hidden-hint" style="display: none;">
-            All optional columns hidden. Click "Customize" to show columns.
+            {{ i18n.tr('frontend.table.hidden_hint') }}
           </div>
         </div>
 
@@ -127,12 +130,12 @@
                       <table class="table table-dark table-striped tt-lap-table">
                           <thead class="tt-table-head">
                               <tr>
-                                  <th>Lap</th>
-                                  <th>S1</th>
-                                  <th>S2</th>
-                                  <th>S3</th>
-                                  <th>Lap Time</th>
-                                  <th id="tt-vmax-th" data-bs-toggle="tooltip">vMax 🛈</th>
+                                  <th>{{ i18n.tr('frontend.table.header_lap') }}</th>
+                                  <th>{{ i18n.tr('frontend.table.header_s1') }}</th>
+                                  <th>{{ i18n.tr('frontend.table.header_s2') }}</th>
+                                  <th>{{ i18n.tr('frontend.table.header_s3') }}</th>
+                                  <th>{{ i18n.tr('frontend.table.header_lap_time') }}</th>
+                                  <th id="tt-vmax-th" data-bs-toggle="tooltip">{{ i18n.tr('frontend.table.header_vmax') }} 🛈</th>
                               </tr>
                           </thead>
                           <tbody id="tt-lap-table-body">
@@ -149,10 +152,10 @@
                       <div class="tt-comparison-card tt-personal-best" data-card-id="personal-best">
                           <div class="tt-card-header">
                               <div class="tt-card-header-content">
-                                  <h6 class="tt-card-title">Personal Best</h6>
+                                  <h6 class="tt-card-title">{{ i18n.tr('frontend.tt.personal_best') }}</h6>
                                   <div class="tt-main-time" id="tt-pb-time">--:--:---</div>
                               </div>
-                              <div class="tt-wings">Wings: <span id="tt-pb-wings">50-50</span></div>
+                              <div class="tt-wings">{{ i18n.tr('frontend.tt.wings') }}<span id="tt-pb-wings">50-50</span></div>
                           </div>
                           <div class="tt-card-body">
                               <div class="tt-sectors">
@@ -174,10 +177,10 @@
                       <div class="tt-comparison-card tt-session-best" data-card-id="session-best">
                           <div class="tt-card-header">
                               <div class="tt-card-header-content">
-                                  <h6 class="tt-card-title">Session Best</h6>
+                                  <h6 class="tt-card-title">{{ i18n.tr('frontend.tt.session_best') }}</h6>
                                   <div class="tt-main-time" id="tt-sb-time">--:--:---</div>
                               </div>
-                              <div class="tt-wings">Wings: <span id="tt-sb-wings">50-50</span></div>
+                              <div class="tt-wings">{{ i18n.tr('frontend.tt.wings') }}<span id="tt-sb-wings">50-50</span></div>
                           </div>
                           <div class="tt-card-body">
                               <div class="tt-sectors">
@@ -199,7 +202,7 @@
                       <div class="tt-comparison-card tt-rival-best" data-card-id="rival-best">
                           <div class="tt-card-header">
                               <div class="tt-card-header-content">
-                                  <h6 class="tt-card-title">Rival Best</h6>
+                                  <h6 class="tt-card-title">{{ i18n.tr('frontend.tt.rival_best') }}</h6>
                                   <div class="tt-main-time" id="tt-rival-time">--:--:---</div>
                               </div>
                               <div class="tt-wings">Wings: <span id="tt-rival-wings">50-50</span></div>
@@ -224,7 +227,7 @@
                       <div class="tt-comparison-card tt-theoretical-best" data-card-id="theoretical-best">
                           <div class="tt-card-header">
                               <div class="tt-card-header-content">
-                                  <h6 class="tt-card-title">Theoretical Best</h6>
+                                  <h6 class="tt-card-title">{{ i18n.tr('frontend.tt.theoretical_best') }}</h6>
                                   <div class="tt-main-time" id="tt-theoretical-time">--:--:---</div>
                               </div>
                           </div>
@@ -241,7 +244,7 @@
                       <div class="tt-comparison-card tt-irl-pole-lap" data-card-id="irl-pole-lap">
                           <div class="tt-card-header">
                               <div class="tt-card-header-content">
-                                  <h6 class="tt-card-title" id="tt-irl-title">IRL Pole Lap</h6>
+                                  <h6 class="tt-card-title" id="tt-irl-title">{{ i18n.tr('frontend.tt.irl_pole_lap') }}</h6>
                                   <div class="tt-main-time" id="tt-irl-time">--:--:---</div>
                               </div>
                           </div>
@@ -262,15 +265,15 @@
 
     <!-- Auto-Preset Toast -->
     <div id="auto-preset-toast" class="auto-preset-toast" style="display: none;">
-      <span>📱 Small screen detected — switched to Compact layout. Click ⚙️ to customize.</span>
-      <button id="auto-preset-toast-dismiss" class="toast-dismiss-btn" aria-label="Dismiss">&times;</button>
+      <span>📱 {{ i18n.tr('frontend.toast.auto_preset') }}</span>
+      <button id="auto-preset-toast-dismiss" class="toast-dismiss-btn" aria-label="{{ i18n.tr('common.dismiss') }}">&times;</button>
     </div>
 
     <!-- Combined Settings Panel -->
     <div id="settings-panel" class="column-config-panel">
       <div class="panel-header">
-        <h2>Settings</h2>
-        <button id="settings-panel-close-btn" class="panel-close-btn" aria-label="Close">
+        <h2>{{ i18n.tr('frontend.settings.title') }}</h2>
+        <button id="settings-panel-close-btn" class="panel-close-btn" aria-label="{{ i18n.tr('common.close') }}">
           <i class="bi bi-x-lg"></i>
         </button>
       </div>
@@ -516,8 +519,8 @@
         </div>
       </div>
       <div class="panel-footer">
-        <button id="reset-columns-btn" class="reset-columns-btn">Reset to Default</button>
-        <button id="saveSettings" class="reset-columns-btn save-settings-btn" style="display: none;">Save Settings</button>
+        <button id="reset-columns-btn" class="reset-columns-btn">{{ i18n.tr('common.reset_default') }}</button>
+        <button id="saveSettings" class="reset-columns-btn save-settings-btn" style="display: none;">{{ i18n.tr('common.save_settings') }}</button>
       </div>
     </div>
 

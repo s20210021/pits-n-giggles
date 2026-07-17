@@ -120,6 +120,21 @@ class DisplaySettings(ConfigDiffMixin, BaseModel):
         }
     )
 
+    language: str = Field(
+        default="auto",
+        description="Display language (auto = system locale)",
+        json_schema_extra={
+            "ui": {
+                "type" : "radio_buttons",
+                "options": ["auto", "en", "zh-CN"],
+                "visible": True,
+                "ext_info" : [
+                    "Select the language for the UI. 'auto' detects from system locale."
+                ]
+            }
+        }
+    )
+
     @property
     def hud_refresh_interval(self) -> int:
         # hz to ms

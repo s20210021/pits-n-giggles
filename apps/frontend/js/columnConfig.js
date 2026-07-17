@@ -5,52 +5,54 @@
  * User preferences are persisted in localStorage.
  * Session-based overrides (e.g. fuel only in race) are transient.
  */
+const t = (k) => window.__i18n.tr(k);
+
 class ColumnConfig {
     static STORAGE_KEY = 'driver-view-column-config';
     static AUTO_PRESET_SHOWN_KEY = 'driver-view-auto-preset-shown';
     static CUSTOM_PRESET_KEY = 'driver-view-custom-preset';
 
     static COLUMN_GROUPS = [
-        { id: 'delta',           label: 'Delta / Gap to Leader' },
-        { id: 'ers',             label: 'ERS' },
-        { id: 'warns-pens',     label: 'Warnings & Penalties' },
-        { id: 'best-lap',       label: 'Best Lap' },
-        { id: 'last-lap',       label: 'Last Lap' },
-        { id: 'current-lap',    label: 'Current Lap' },
-        { id: 'tyre-info',      label: 'Tyre Info', children: [
-            { id: 'tyre-compound',   label: 'Compound & Wear' },
-            { id: 'tyre-age',        label: 'Age & Pits' },
-            { id: 'tyre-pit-rejoin', label: 'Pit Rejoin' },
-            { id: 'tyre-temps',      label: 'Temps' },
+        { id: 'delta',           label: t('frontend.column.label_delta') },
+        { id: 'ers',             label: t('frontend.column.label_ers') },
+        { id: 'warns-pens',     label: t('frontend.column.label_warns_pens') },
+        { id: 'best-lap',       label: t('frontend.column.label_best_lap') },
+        { id: 'last-lap',       label: t('frontend.column.label_last_lap') },
+        { id: 'current-lap',    label: t('frontend.column.label_current_lap') },
+        { id: 'tyre-info',      label: t('frontend.column.label_tyre_info'), children: [
+            { id: 'tyre-compound',   label: t('frontend.column.label_compound_wear') },
+            { id: 'tyre-age',        label: t('frontend.column.label_age_pits') },
+            { id: 'tyre-pit-rejoin', label: t('frontend.column.label_pit_rejoin') },
+            { id: 'tyre-temps',      label: t('frontend.column.label_temps') },
         ]},
-        { id: 'wear-prediction', label: 'Wear Prediction' },
-        { id: 'damage',         label: 'Damage' },
-        { id: 'fuel',           label: 'Fuel' },
+        { id: 'wear-prediction', label: t('frontend.column.label_wear_prediction') },
+        { id: 'damage',         label: t('frontend.column.label_damage') },
+        { id: 'fuel',           label: t('frontend.column.label_fuel') },
     ];
 
     static PRESETS = [
         {
-            id: 'full-race', emoji: '🏁', label: 'Full Race',
+            id: 'full-race', emoji: '🏁', label: t('frontend.column.preset_full_race'),
             visible: null // all on
         },
         {
-            id: 'racer', emoji: '🎮', label: 'Racer',
+            id: 'racer', emoji: '🎮', label: t('frontend.column.preset_racer'),
             visible: ['delta', 'tyre-info', 'tyre-compound', 'tyre-age', 'last-lap', 'fuel']
         },
         {
-            id: 'strategist', emoji: '📊', label: 'Strategist',
+            id: 'strategist', emoji: '📊', label: t('frontend.column.preset_strategist'),
             visible: ['delta', 'tyre-info', 'tyre-compound', 'tyre-age', 'tyre-pit-rejoin', 'tyre-temps', 'wear-prediction', 'fuel', 'best-lap']
         },
         {
-            id: 'pace-hunter', emoji: '⚔️', label: 'Pace Hunter',
+            id: 'pace-hunter', emoji: '⚔️', label: t('frontend.column.preset_pace_hunter'),
             visible: ['delta', 'best-lap', 'last-lap', 'current-lap', 'ers']
         },
         {
-            id: 'damage-watch', emoji: '🔧', label: 'Damage Watch',
+            id: 'damage-watch', emoji: '🔧', label: t('frontend.column.preset_damage_watch'),
             visible: ['tyre-info', 'tyre-compound', 'damage', 'warns-pens']
         },
         {
-            id: 'compact', emoji: '📱', label: 'Compact',
+            id: 'compact', emoji: '📱', label: t('frontend.column.preset_compact'),
             visible: ['tyre-info', 'tyre-compound', 'last-lap']
         },
     ];

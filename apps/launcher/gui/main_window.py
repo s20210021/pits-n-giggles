@@ -46,6 +46,7 @@ from lib.assets_loader import load_fonts, load_icon
 from lib.config import (PngSettings, load_config_migrated,
                         maybe_migrate_legacy_hud_layout, save_config_to_json)
 from lib.file_path import get_app_base_dir, resolve_user_file
+from lib.i18n import tr
 from meta.meta import APP_NAME
 
 from ..perf_db import save_session_stats
@@ -60,12 +61,12 @@ from .tasks import SettingsChangeTask, StopSubsystemTask, UpdateCheckTask
 class ShutdownDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setWindowTitle("Please wait")
+        self.setWindowTitle(tr("launcher.please_wait"))
         self.setModal(True)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowCloseButtonHint)
 
         layout = QVBoxLayout(self)
-        label = QLabel("Shutting down ...")
+        label = QLabel(tr("launcher.shutting_down"))
         label.setFont(QFont("Formula1"))
         label.setAlignment(Qt.AlignCenter)
         layout.addWidget(label)
@@ -347,30 +348,30 @@ class PngLauncherWindow(QMainWindow):
         global_buttons_layout.setSpacing(6)
 
         # Settings button
-        self.settings_btn = self.build_button(self.get_icon("settings"), self.on_settings_clicked, "Settings")
+        self.settings_btn = self.build_button(self.get_icon("settings"), self.on_settings_clicked, tr("launcher.button.settings"))
         global_buttons_layout.addWidget(self.settings_btn)
 
         # Discord button
-        self.discord_btn = self.build_button(self.get_icon("discord"), self.on_discord_clicked, "Join Discord")
+        self.discord_btn = self.build_button(self.get_icon("discord"), self.on_discord_clicked, tr("launcher.button.discord"))
         global_buttons_layout.addWidget(self.discord_btn)
 
         # Website button
-        self.website_btn = self.build_button(self.get_icon("website"), self.on_website_clicked, "Tips n' Tricks")
+        self.website_btn = self.build_button(self.get_icon("website"), self.on_website_clicked, tr("launcher.button.website"))
         global_buttons_layout.addWidget(self.website_btn)
 
         # Updates button
         self.updates_btn = self.build_button(self.get_icon("updates"), self.on_updates_clicked,
-                                             "What's New")
+                                             tr("launcher.button.whats_new"))
         self.updates_btn.setObjectName("updates_btn")
         global_buttons_layout.addWidget(self.updates_btn)
 
         # Download button
         self.download_btn = self.build_button(self.get_icon("download"), self.on_download_clicked,
-                                              "Download Latest Releases")
+                                              tr("launcher.button.download_releases"))
         global_buttons_layout.addWidget(self.download_btn)
 
         # Github button
-        self.github_btn = self.build_button(self.get_icon("github"), self.on_github_clicked, "Github Repository")
+        self.github_btn = self.build_button(self.get_icon("github"), self.on_github_clicked, tr("launcher.button.github"))
         global_buttons_layout.addWidget(self.github_btn)
 
         top_bar_layout.addLayout(global_buttons_layout)
@@ -403,7 +404,7 @@ class PngLauncherWindow(QMainWindow):
         central_widget.setLayout(main_layout)
 
         # Initial log
-        self.info_log(f"{APP_NAME} {self.ver_str} started")
+        self.info_log(tr("launcher.started_msg", app=APP_NAME, ver=self.ver_str))
 
         # Check for updates in parallel (no-op in dev/beta mode)
         if self.ver_str != "dev" and "beta" not in self.ver_str:
@@ -419,7 +420,7 @@ class PngLauncherWindow(QMainWindow):
         layout.setSpacing(10)
 
         # Header
-        header_label = QLabel("Subsystems")
+        header_label = QLabel(tr("launcher.subsystems"))
         header_label.setFont(QFont("Formula1", 12, QFont.Weight.Bold))
         header_label.setStyleSheet("color: #d4d4d4; background-color: transparent;")
         layout.addWidget(header_label)
@@ -461,14 +462,14 @@ class PngLauncherWindow(QMainWindow):
         # Header with clear button
         header_layout = QHBoxLayout()
 
-        console_label = QLabel("Console Log")
+        console_label = QLabel(tr("launcher.console_log"))
         console_label.setFont(QFont("Formula1", 12, QFont.Weight.Bold))
         console_label.setStyleSheet("color: #d4d4d4; background-color: transparent;")
         header_layout.addWidget(console_label)
 
         header_layout.addStretch()
 
-        clear_btn = QPushButton("Clear")
+        clear_btn = QPushButton(tr("launcher.clear"))
         clear_btn.setFixedHeight(28)
         clear_btn.setStyleSheet("""
             QPushButton {
@@ -507,7 +508,7 @@ class PngLauncherWindow(QMainWindow):
 
         for subsystem in self.subsystems:
             if subsystem.get_start_by_default():
-                self.debug_log(f"Auto-starting {subsystem.DISPLAY_NAME}...")
+                self.debug_log(tr("launcher.auto_starting", subsystem=subsystem.DISPLAY_NAME))
                 subsystem.start("Initial auto-start")
 
     def format_log_message_colored_self(self, timestamp: str, message: str, level: str) -> str:
@@ -635,7 +636,7 @@ class PngLauncherWindow(QMainWindow):
             console_msg = None
             if level != "SILENT":
                 if stack:
-                    console_text = f"{text} (stack trace written to log file)"
+                    console_text = f"{text}{tr('launcher.stack_trace_log')}"
                 else:
                     console_text = text
 
@@ -688,14 +689,14 @@ class PngLauncherWindow(QMainWindow):
         log_func(log_msg)
 
     def closeEvent(self, event: QCloseEvent):
-        self.info_log("Shutting down launcher...")
+        self.info_log(tr("launcher.shutting_down_launcher"))
 
         self.shutdown_dialog = ShutdownDialog(self)
         self.shutdown_dialog.show()
         self.process_events()
 
         for subsystem in self.subsystems:
-            self.info_log(f"Shutting down {APP_NAME} {self.ver_str} - Stopping subsystem {subsystem.DISPLAY_NAME}...")
+            self.info_log(tr("launcher.shutdown_subsystem", app=APP_NAME, ver=self.ver_str, subsystem=subsystem.DISPLAY_NAME))
             task = StopSubsystemTask(subsystem, "Launcher shutting down")
             self.thread_pool.start(task)
 
@@ -710,7 +711,7 @@ class PngLauncherWindow(QMainWindow):
             elapsed += INTERVAL
 
             if elapsed >= MAX_TIME_MS:
-                self.error_log("Shutdown timeout - continuing forcefully.")
+                self.error_log(tr("launcher.shutdown_timeout"))
                 forced_shutdown = True
                 break
 
@@ -722,7 +723,7 @@ class PngLauncherWindow(QMainWindow):
         try:
             save_session_stats(get_app_base_dir(), stats)
         except Exception as e:  # pylint: disable=broad-exception-caught
-            self.error_log(f"Failed to save perf stats to DB: {e}")
+            self.error_log(tr("launcher.failed_save_perf", error=str(e)))
         self.info_log(f"{APP_NAME} {self.ver_str} shutdown complete (forced={forced_shutdown}).")
         event.accept()
 
@@ -811,7 +812,11 @@ class PngLauncherWindow(QMainWindow):
         """Display an error message box."""
         self.show_error_signal.emit(title, message)
 
-    def select_file(self, title="Select File", file_filter="All Files (*.*)"):
+    def select_file(self, title: str = None, file_filter: str = None):
+        if title is None:
+            title = tr("launcher.select_file")
+        if file_filter is None:
+            file_filter = tr("launcher.all_files")
         """Open a file dialog and return path or None."""
         file_path, _ = QFileDialog.getOpenFileName(
             self,
@@ -845,7 +850,7 @@ class PngLauncherWindow(QMainWindow):
             dialog = ChangelogWindow(self, self.newer_versions, self.icons)
             dialog.exec()
         else:
-            self.show_success("No Updates", "You are running the latest version!")
+            self.show_success(tr("launcher.no_updates"), tr("launcher.running_latest"))
 
     def on_download_clicked(self):
         """Handle download button click"""
@@ -871,7 +876,7 @@ class PngLauncherWindow(QMainWindow):
             self.process_events()
 
         self.update_settings(new_settings)
-        self.show_success("Settings Changed", "The settings have been saved and applied successfully.")
+        self.show_success(tr("launcher.settings_changed"), tr("launcher.settings_saved"))
 
     def update_settings(self, new_settings: PngSettings):
         """Update the local settings and propagate to all subsystems"""
@@ -886,9 +891,9 @@ class PngLauncherWindow(QMainWindow):
         try:
             save_config_to_json(settings, path)
         except Exception as e: # pylint: disable=broad-exception-caught
-            self.error_log(f"Failed to save settings to {path}: {e}")
+            self.error_log(tr("launcher.failed_save_settings", path=str(path), error=str(e)))
 
-        self.info_log("Settings saved successfully to disk")
+        self.info_log(tr("launcher.settings_saved_disk"))
 
     def mark_update_button_available(self):
         """Mark the update button as available"""

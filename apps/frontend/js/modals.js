@@ -1,3 +1,5 @@
+const t = (k, p) => window.__i18n.tr(k, p);
+
 class ModalManager {
   constructor(driverModal=true, settingsModal=true, raceStatsModal=true) {
     const modalElement = document.getElementById('driverModal');
@@ -48,7 +50,7 @@ class ModalManager {
           })
           .catch(err => {
               console.error("Fetch error:", err);
-              showToast("Failed to fetch race info");
+              showToast(t('frontend.toast.fetch_failed'));
           });
       });
     }
@@ -250,10 +252,10 @@ class ModalManager {
 
       const volume = parseInt(document.getElementById('volumeRange').value, 10);
       const lines = [
-          "Copy that, we are checking",
-          "And box box. Stay Out! Stay Out! Stay Out!",
-          "Must be the water",
-          "OK Kimi, we have now 5 second time penalty",
+          t('frontend.tts.line_1'),
+          t('frontend.tts.line_2'),
+          t('frontend.tts.line_3'),
+          t('frontend.tts.line_4'),
       ]
       const randomLine = lines[Math.floor(Math.random() * lines.length)];
       textToSpeech(randomLine, volume);
@@ -277,9 +279,9 @@ class ModalManager {
   saveSettings() {
 
     // Validate numAdjacentCars input
-    const numAdjacentCars_temp = this.validateIntField('carsToShow', "Number of adjacent cars");
-    const numWeatherForecastSamples_temp = this.validateIntField('weatherSamplesToShow', 'Number of weather forecast samples');
-    const osdDurationSec_temp = this.validateIntField('tyreDeltaOsdDuration', 'OSD duration in seconds');
+    const numAdjacentCars_temp = this.validateIntField('carsToShow', t('frontend.toast.num_adjacent_cars'));
+    const numWeatherForecastSamples_temp = this.validateIntField('weatherSamplesToShow', t('frontend.toast.num_weather_samples'));
+    const osdDurationSec_temp = this.validateIntField('tyreDeltaOsdDuration', t('frontend.toast.osd_duration'));
     if ((null === numAdjacentCars_temp) || (null === numWeatherForecastSamples_temp)) {
       return;
     }
@@ -287,7 +289,7 @@ class ModalManager {
     // Collect and log the selected settings
     const rawTeamName = document.getElementById('teamNameInput').value;
     const normalizedTeamName = rawTeamName.trim();
-    g_pref_myTeamName = normalizedTeamName === "" ? "My Team" : normalizedTeamName;
+    g_pref_myTeamName = normalizedTeamName === "" ? t('frontend.settings.my_team_default') : normalizedTeamName;
     g_pref_is24HourFormat = (document.querySelector('input[name="timeFormat"]:checked').value === "24") ? (true) : (false);
     g_pref_lastLapAbsoluteFormat = (document.querySelector('input[name="lastLapTimeFormat"]:checked').value === "absolute") ? (true) : (false);
     g_pref_bestLapAbsoluteFormat = (document.querySelector('input[name="bestLapTimeFormat"]:checked').value === "absolute") ? (true) : (false);
@@ -312,7 +314,7 @@ class ModalManager {
     const saveBtn = document.getElementById('saveSettings');
     if (saveBtn) {
       const origText = saveBtn.textContent;
-      saveBtn.textContent = '✓ Saved!';
+      saveBtn.textContent = '✓ ' + t('frontend.toast.saved');
       setTimeout(() => { saveBtn.textContent = origText; }, 1500);
     }
 
@@ -327,7 +329,7 @@ class ModalManager {
     const tempVal = parseInt(numInput.value, 10);
 
     if (isNaN(tempVal) || tempVal < min || tempVal > max) {
-      showToast(`Please enter a valid number between ${min} and ${max} for ${fieldName}.`);
+      showToast(t('frontend.toast.validation_error', { min: min, max: max, fieldName: fieldName }));
       return null;
     }
     return tempVal;

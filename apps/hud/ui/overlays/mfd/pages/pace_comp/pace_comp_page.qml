@@ -2,12 +2,12 @@ import QtQuick 2.15
 
 Item {
     id: root
-    property string title: "PACE COMPARISON"
+    property string title: i18n["hud.pace_comp.title"] || "PACE COMPARISON"
 
     /* ─────────────────────────────────────────────────────
      * CONFIG
      * ───────────────────────────────────────────────────── */
-    readonly property var    headers:   ["POS", "DRIVER", "S1", "S2", "S3", "LAP"]
+    readonly property var    headers:   [i18n["hud.pace_comp.pos"] || "POS", i18n["hud.pace_comp.driver"] || "DRIVER", i18n["hud.pace_comp.s1"] || "S1", i18n["hud.pace_comp.s2"] || "S2", i18n["hud.pace_comp.s3"] || "S3", i18n["hud.pace_comp.lap"] || "LAP"]
     readonly property var    colRatios: [0.06,   0.30,    0.16, 0.16, 0.16, 0.16]
 
     readonly property color  colText:    "#e0e0e0"
@@ -112,7 +112,7 @@ Item {
         Text {
             anchors.centerIn: parent
             visible: rows.length === 0
-            text: "WAITING FOR DATA"
+            text: i18n["common.waiting_data"] || "WAITING FOR DATA"
             font.family: "Formula1"
             font.pixelSize: 11
             color: "#666666"

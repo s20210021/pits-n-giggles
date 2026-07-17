@@ -3,7 +3,7 @@ import QtQuick.Layouts 1.15
 
 Rectangle {
     id: root
-    property string title: "PIT REJOIN PREDICTION"
+    property string title: i18n["hud.pit_rejoin.title"] || "PIT REJOIN PREDICTION"
     color: "transparent"
 
     property string pitTimeLossText: "Pit Time Loss: --"
@@ -92,7 +92,7 @@ Rectangle {
 
             Text {
                 anchors.centerIn: parent
-                text: "WAITING FOR DATA"
+                text: i18n["common.waiting_data"] || "WAITING FOR DATA"
                 font.family: "Formula1"
                 font.pixelSize: 11
                 color: "#666666"

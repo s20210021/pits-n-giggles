@@ -30,6 +30,7 @@ from apps.hud.common import get_ref_row, is_race_type_session
 from apps.hud.ui.overlays.mfd.pages.base_page import MfdPageBase
 from lib.config import MfdPageId, OverlayId, OverlaysFuelEstimationMode
 from lib.f1_types import F1Utils
+from lib.i18n import tr
 
 # -------------------------------------- CLASSES -----------------------------------------------------------------------
 
@@ -80,12 +81,12 @@ class FuelInfoPage(MfdPageBase):
             if surplus is not None:
                 self.set_qml_property(
                     "surplusText",
-                    f"Surplus: {F1Utils.formatFloat(surplus, precision=3, signed=True)} laps"
+                    tr("hud.fuel.surplus", fmt=F1Utils.formatFloat(surplus, precision=3, signed=True))
                 )
                 self.set_qml_property("surplusValue", surplus)
                 self.set_qml_property("surplusValid", True)
             else:
-                self.set_qml_property("surplusText", "Surplus: ---")
+                self.set_qml_property("surplusText", tr("hud.fuel.surplus_dash"))
                 self.set_qml_property("surplusValid", False)
 
     def _fmt(self, value):

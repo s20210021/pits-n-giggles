@@ -3,7 +3,7 @@ import QtQuick.Layouts 1.15
 
 Rectangle {
     id: root
-    property string title: "TRAFFIC MONITOR"
+    property string title: i18n["hud.traffic_monitor.title"] || "TRAFFIC MONITOR"
     color: "transparent"
 
     // States: "table" | "inGarage" | "empty"
@@ -65,7 +65,7 @@ Rectangle {
 
             Text {
                 anchors.centerIn: parent
-                text: "CARS BEHIND"
+                text: i18n["hud.traffic_monitor.cars_behind"] || "CARS BEHIND"
                 font.family: "Formula1"
                 font.pixelSize: 11
                 font.bold: true
@@ -204,7 +204,7 @@ Rectangle {
             Text {
                 anchors.centerIn: parent
                 visible: root.viewState === "inGarage"
-                text: "IN GARAGE"
+                text: i18n["hud.traffic_monitor.in_garage"] || "IN GARAGE"
                 font.family: "Formula1"
                 font.pixelSize: 13
                 color: "#888888"
@@ -214,7 +214,7 @@ Rectangle {
             Text {
                 anchors.centerIn: parent
                 visible: root.viewState === "empty"
-                text: "WAITING FOR DATA"
+                text: i18n["common.waiting_data"] || "WAITING FOR DATA"
                 font.family: "Formula1"
                 font.pixelSize: 11
                 color: "#666666"

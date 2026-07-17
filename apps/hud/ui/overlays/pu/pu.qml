@@ -157,7 +157,7 @@ Window {
                         spacing: 4
 
                         Text {
-                            text:               "ICE"
+                            text:               i18n["hud.pu.ice"] || "ICE"
                             font.family:        "Formula1"
                             font.pixelSize:     10
                             font.letterSpacing: 0.8
@@ -183,7 +183,7 @@ Window {
                         layoutDirection: Qt.RightToLeft
 
                         Text {
-                            text:               "MGU-K"
+                            text:               i18n["hud.pu.mguk"] || "MGU-K"
                             font.family:        "Formula1"
                             font.pixelSize:     10
                             font.letterSpacing: 0.8
@@ -217,7 +217,7 @@ Window {
                         spacing: 5
 
                         Text {
-                            text:               "TEMP"
+                            text:               i18n["hud.pu.temp"] || "TEMP"
                             font.family:        "Formula1"
                             font.pixelSize:     10
                             font.letterSpacing: 0.8
@@ -268,7 +268,7 @@ Window {
                     spacing:                0
 
                     Text {
-                        text:               "HARV-K"
+                        text:               i18n["hud.pu.harvk"] || "HARV-K"
                         font.family:        "Formula1"
                         font.pixelSize:     9
                         font.letterSpacing: 0.8
@@ -312,7 +312,7 @@ Window {
                     spacing:                0
 
                     Text {
-                        text:               "HARV-K"
+                        text:               i18n["hud.pu.harvk"] || "HARV-K"
                         font.family:        "Formula1"
                         font.pixelSize:     9
                         font.letterSpacing: 0.8
@@ -427,7 +427,7 @@ Window {
                     spacing:                0
 
                     Text {
-                        text:               "HARV-H"
+                        text:               i18n["hud.pu.harvh"] || "HARV-H"
                         font.family:        "Formula1"
                         font.pixelSize:     9
                         font.letterSpacing: 0.8

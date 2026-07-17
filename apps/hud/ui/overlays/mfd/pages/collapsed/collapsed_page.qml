@@ -5,7 +5,7 @@ Item {
     width: parent ? parent.width : 400
     height: parent ? parent.height : 36
 
-    property string title: "Pits n' Giggles MFD"
+    property string title: i18n["hud.mfd.brand"] || "Pits n' Giggles MFD"
     property url iconSource: "../../../../../../../assets/logo.png"
 
     Rectangle {

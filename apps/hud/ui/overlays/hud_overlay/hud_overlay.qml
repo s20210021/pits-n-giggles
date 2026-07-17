@@ -52,8 +52,8 @@ Window {
     property int    rpm:            0
     property int    gear:           0
     property int    speedKmph:      0
-    property string speedUnitLabel: "km/h"
-    property string drsText:           "DRS"
+    property string speedUnitLabel: i18n["hud.overlay.kmh"] || "km/h"
+    property string drsText:           i18n["hud.overlay.drs"] || "DRS"
     property bool   drsEnabled:        false
     property bool   drsAvailable:      false
     property int    drsDistance:       0
@@ -86,8 +86,8 @@ Window {
     // ── Helpers ─────────────────────────────────────────────────────────────
 
     function gearLabel(g) {
-        if (g < 0)  return "R"
-        if (g === 0) return "N"
+        if (g < 0)  return i18n["gear.reverse"] || "R"
+        if (g === 0) return i18n["gear.neutral"] || "N"
         return g.toString()
     }
 
@@ -396,7 +396,7 @@ Window {
                                 horizontalAlignment: Text.AlignHCenter
                             }
                             Text {
-                                text:                "RPM"
+                                text:                i18n["hud.overlay.rpm"] || "RPM"
                                 font.family:         "Formula1"
                                 font.pixelSize:      8
                                 color:               "#7a94a8"
@@ -582,7 +582,7 @@ Window {
                                     Text {
                                         id:              drsLabel
                                         anchors.centerIn: parent
-                                        text:            root.pitLimiterEnabled ? "LIMITER" : root.drsText
+                                        text:            root.pitLimiterEnabled ? (i18n["hud.overlay.limiter"] || "LIMITER") : root.drsText
                                         font.family:     "Formula1"
                                         font.pixelSize:  8
                                         color: root.pitLimiterEnabled

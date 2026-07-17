@@ -29,6 +29,7 @@ from apps.hud.common import get_ers_mode_color
 from apps.hud.ui.overlays.base import BaseOverlay
 from lib.config import OverlayId, OverlayPosition
 from lib.f1_types import CarStatusData
+from lib.i18n import tr
 
 # -------------------------------------- CLASSES -----------------------------------------------------------------------
 
@@ -116,11 +117,11 @@ class PuOverlay(BaseOverlay):
                 throttle         = hud_data["throttle"] or 0.0
 
                 if mguk_harv_frac == 0:
-                    prog_bar_str = "LIMIT REACHED"
+                    prog_bar_str = tr("hud.pu.limit_reached")
                 elif is_harvesting and throttle == 1.0 and is_f1_26:
-                    prog_bar_str = "SUPER CLIPPING"
+                    prog_bar_str = tr("hud.pu.super_clipping")
                 elif is_harvesting:
-                    prog_bar_str = "HARVESTING"
+                    prog_bar_str = tr("hud.pu.harvesting")
                 else:
                     prog_bar_str = ""
 

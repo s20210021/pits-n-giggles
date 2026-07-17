@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% if port_info %}Pits n' Giggles Engineer View - {{ port_info }}{% else %}Pits n' Giggles Engineer View {{ version }}{% endif %}</title>
+    <title>{% if port_info %}{{ i18n.tr('frontend.brand_eng_view') }} - {{ port_info }}{% else %}{{ i18n.tr('frontend.brand_eng_view') }} {{ version }}{% endif %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" integrity="sha384-tViUnnbYAV00FLIhhi3v/dWt3Jxw4gZQcNoSCxCIFNJVCx7/D55/wXsrNIRANwdD" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -24,6 +24,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tinycolor/1.4.2/tinycolor.min.js" integrity="sha384-AZ8EPX4FWLU/SIr5Xfoem6KYnSN7QhmrnEZIzF2NjoDoX9PV9GMuA0XCI3jndPym" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/ag-grid-community@35.3.0/dist/ag-grid-community.min.js" integrity="sha384-GbvRvkQNhoaZATsk65Au49OqhW8NGyoGqeziEqwOFDjR5WDBwx1w1QwlI/enfu+g" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js" integrity="sha384-H6KKS1H1WwuERMSm+54dYLzjg0fKqRK5ZRyASdbrI/lwrCc6bXEmtGYr5SwvP1pZ" crossorigin="anonymous"></script>
+    <!-- i18n: embed translations and load helper -->
+    <script>window.__i18n = {{ i18n_dict() | tojson | safe }};</script>
+    <script src="{{ url_for('static', filename='js/i18n.js') }}"></script>
 </head>
 <body>
     <div class="container-fluid">
@@ -32,7 +35,7 @@
             <div class="upper-section-accordion-header" id="upperSectionAccordionHeader">
                 <span class="upper-section-accordion-title">
                     <i class="bi bi-chevron-down upper-section-chevron" id="upperSectionChevron"></i>
-                    Session Overview
+                    {{ i18n.tr('frontend.engview.session_overview') }}
                 </span>
                 <!-- Collapsed info bar — only visible when accordion is collapsed -->
                 <div class="upper-section-collapsed-bar" id="upperSectionCollapsedBar">
@@ -40,12 +43,12 @@
                     <div class="collapsed-bar-sep"></div>
                     <span class="collapsed-bar-time" id="collapsedBarTime">—</span>
                     <div class="collapsed-bar-sep"></div>
-                    <div class="collapsed-bar-item" data-bs-toggle="tooltip" data-bs-title="Track Temperature">
-                        <img src="/overlays/track-temperature.svg" class="collapsed-bar-icon" alt="Track Temperature">
+                    <div class="collapsed-bar-item" data-bs-toggle="tooltip" data-bs-title="{{ i18n.tr('frontend.tooltip.track_temp') }}">
+                        <img src="/overlays/track-temperature.svg" class="collapsed-bar-icon" alt="{{ i18n.tr('frontend.tooltip.track_temp') }}">
                         <span id="collapsedBarTrackTemp">—</span>
                     </div>
-                    <div class="collapsed-bar-item" data-bs-toggle="tooltip" data-bs-title="Air Temperature">
-                        <img src="/overlays/air-temperature.svg" class="collapsed-bar-icon" alt="Air Temperature">
+                    <div class="collapsed-bar-item" data-bs-toggle="tooltip" data-bs-title="{{ i18n.tr('frontend.tooltip.air_temp') }}">
+                        <img src="/overlays/air-temperature.svg" class="collapsed-bar-icon" alt="{{ i18n.tr('frontend.tooltip.air_temp') }}">
                         <span id="collapsedBarAirTemp">—</span>
                     </div>
                     <div class="collapsed-bar-sep"></div>
@@ -53,11 +56,11 @@
                         <button id="collapsed-clear-ref-btn"
                                 class="btn collapsed-bar-action-btn"
                                 data-bs-toggle="tooltip"
-                                data-bs-title="Clear reference driver">
+                                data-bs-title="{{ i18n.tr('frontend.tooltip.clear_ref_driver') }}">
                             <i class="bi bi-star-fill" style="color:#ffd700;"></i>
                         </button>
                         <div class="collapsed-bar-pred">
-                            <label class="collapsed-bar-pred-label">Pred L</label>
+                            <label class="collapsed-bar-pred-label">{{ i18n.tr('frontend.engview.pred_l') }}</label>
                             <input type="number" id="collapsedPredictionLap"
                                    class="form-control form-control-sm collapsed-bar-pred-input"
                                    value="1" min="1" max="80">
@@ -71,7 +74,7 @@
                     <div class="card border-secondary global-stats-section">
                         <div class="card-header border-secondary global-stats-section-header">
                             <div class="d-flex align-items-center race-status-header-left">
-                                <h5 class="mb-0" id="raceStatusHeader">Race Status</h5>
+                                <h5 class="mb-0" id="raceStatusHeader">{{ i18n.tr('frontend.engview.race_status') }}</h5>
                                 <span class="race-status-summary" id="raceStatusSummary">
                                     <span class="race-status-summary-sep">|</span>
                                     L <span id="summaryLap">—</span>
@@ -82,86 +85,86 @@
                                 </span>
                             </div>
                             <div class="d-flex align-items-center">
-                                <button id="raceStatusCollapseBtn" class="btn settings-button" data-bs-toggle="tooltip" data-bs-title="Toggle Race Status details">
+                                <button id="raceStatusCollapseBtn" class="btn settings-button" data-bs-toggle="tooltip" data-bs-title="{{ i18n.tr('frontend.tooltip.toggle_race_status') }}">
                                     <i class="bi bi-chevron-down"></i>
                                 </button>
-                                <span style="font-size: 2.1rem;" data-bs-toggle="tooltip" data-bs-title="This symbol shows up when a driver has set their telemetry to restricted">⌀</span>
-                                <button id="race-stats-btn" class="settings-button" data-bs-toggle="tooltip" data-bs-title="Show Race Stats">
+                                <span style="font-size: 2.1rem;" data-bs-toggle="tooltip" data-bs-title="{{ i18n.tr('frontend.tooltip.telemetry_restricted') }}">⌀</span>
+                                <button id="race-stats-btn" class="settings-button" data-bs-toggle="tooltip" data-bs-title="{{ i18n.tr('frontend.tooltip.show_race_stats') }}">
                                     🏁
                                 </button>
                                 <button id="track-map-drawer-btn" class="settings-button drawer-toggle-btn"
                                         data-drawer="track-map-drawer"
-                                        data-bs-toggle="tooltip" data-bs-title="Show Track Map">
+                                        data-bs-toggle="tooltip" data-bs-title="{{ i18n.tr('frontend.tooltip.show_track_map') }}">
                                     <i class="bi bi-geo-alt-fill"></i>
                                 </button>
                                 <button id="weather-drawer-btn" class="settings-button drawer-toggle-btn"
                                         data-drawer="weather-drawer"
-                                        data-bs-toggle="tooltip" data-bs-title="Show Weather Forecast">
+                                        data-bs-toggle="tooltip" data-bs-title="{{ i18n.tr('frontend.tooltip.show_weather') }}">
                                     <i class="bi bi-cloud-sun-fill"></i>
                                 </button>
-                                <a id="driver-view-btn" class="btn settings-button" href="/" data-bs-toggle="tooltip" data-bs-title="Switch to driver view">
+                                <a id="driver-view-btn" class="btn settings-button" href="/" data-bs-toggle="tooltip" data-bs-title="{{ i18n.tr('frontend.tooltip.switch_driver') }}">
                                     <i class="bi bi-car-front-fill"></i>
                                 </a>
                                 <button id="clear-ref-driver-btn"
                                         class="btn settings-button"
                                         data-bs-toggle="tooltip"
-                                        data-bs-title="Clear reference driver selection">
+                                        data-bs-title="{{ i18n.tr('frontend.tooltip.clear_ref_driver') }}">
                                     <i class="bi bi-star-fill" style="color:#ffd700;"></i>
                                 </button>
-                                <button id="unpin-all-btn" class="btn settings-button unpin-all-btn" data-bs-toggle="tooltip" data-bs-title="Unfreeze all columns" style="display:none"><i class="bi bi-lock-fill" style="color:#60a5fa;"></i></button>
-                <button id="settings-btn" class="btn settings-button" data-bs-toggle="tooltip" data-bs-title="Table columns settings"><i class="bi bi-gear-fill"></i></button>
+                                <button id="unpin-all-btn" class="btn settings-button unpin-all-btn" data-bs-toggle="tooltip" data-bs-title="{{ i18n.tr('frontend.engview.unfreeze_columns') }}" style="display:none"><i class="bi bi-lock-fill" style="color:#60a5fa;"></i></button>
+                <button id="settings-btn" class="btn settings-button" data-bs-toggle="tooltip" data-bs-title="{{ i18n.tr('frontend.tooltip.table_columns_settings') }}"><i class="bi bi-gear-fill"></i></button>
                                 {% if port_info %}
-                                <span class="port-badge" title="Multi-session port identifier">📍 {{ port_info }}</span>
+                                <span class="port-badge" title="{{ i18n.tr('frontend.tooltip.multi_session_port') }}">📍 {{ port_info }}</span>
                                 {% endif %}
                             </div>
                         </div>
                         <div class="card-body" id="raceStatusBody">
                             <div class="eng-view-global-stats-container">
                             <div class="eng-view-global-stat">
-                                <label>Session Time</label>
+                                <label>{{ i18n.tr('frontend.engview.session_time') }}</label>
                                 <span id="sessionTime"></span>
                             </div>
                             <div class="eng-view-global-stat">
-                                <label>Current Status</label>
+                                <label>{{ i18n.tr('frontend.engview.current_status') }}</label>
                                 <span id="raceStatus"></span>
                             </div>
                             <div class="eng-view-global-stat">
-                                <label>Lap</label>
+                                <label>{{ i18n.tr('frontend.engview.lap') }}</label>
                                 <span id="currentLap"></span>
                             </div>
                             <div class="eng-view-global-stat">
-                                <label>SC Count</label>
+                                <label>{{ i18n.tr('frontend.engview.sc_count') }}</label>
                                 <span id="scCount"></span>
                             </div>
                             <div class="eng-view-global-stat">
-                                <label>VSC Count</label>
+                                <label>{{ i18n.tr('frontend.engview.vsc_count') }}</label>
                                 <span id="vscCount"></span>
                             </div>
                             <div class="eng-view-global-stat">
-                                <label>Track Temp</label>
+                                <label>{{ i18n.tr('frontend.engview.track_temp') }}</label>
                                 <span id="trackTemp"></span>
                             </div>
                             <div class="eng-view-global-stat">
-                                <label>Air Temp</label>
+                                <label>{{ i18n.tr('frontend.engview.air_temp') }}</label>
                                 <span id="airTemp"></span>
                             </div>
                             <div class="eng-view-global-stat">
-                                <label>Pit Time Loss</label>
+                                <label>{{ i18n.tr('frontend.engview.pit_time_loss') }}</label>
                                 <span id="pitTimeLoss"></span>
                             </div>
                             <div class="eng-view-global-stat">
-                                <label>Prediction Lap</label>
+                                <label>{{ i18n.tr('frontend.engview.prediction_lap') }}</label>
                                 <div class="d-flex align-items-center">
                                     <input type="number" id="predictionLap" class="form-control form-control-sm bg-dark text-light border-secondary" value="1" min="1" max="80">
                                     <div class="ms-2 d-flex align-items-center">
-                                        <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" data-bs-title="Set prediction to pit lap (if available)">
-                                            <button id="predictionPitBtn" class="btn btn-sm btn-secondary me-1">Pit</button>
+                                        <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" data-bs-title="{{ i18n.tr('frontend.engview.set_pred_pit') }}">
+                                            <button id="predictionPitBtn" class="btn btn-sm btn-secondary me-1">{{ i18n.tr('frontend.engview.pit') }}</button>
                                         </span>
-                                        <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" data-bs-title="Set prediction to mid-point lap">
-                                            <button id="predictionMidBtn" class="btn btn-sm btn-secondary">Mid</button>
+                                        <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" data-bs-title="{{ i18n.tr('frontend.engview.set_pred_mid') }}">
+                                            <button id="predictionMidBtn" class="btn btn-sm btn-secondary">{{ i18n.tr('frontend.engview.mid') }}</button>
                                         </span>
-                                        <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" data-bs-title="Set prediction to last lap">
-                                            <button id="predictionLastBtn" class="btn btn-sm btn-secondary">Last</button>
+                                        <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" data-bs-title="{{ i18n.tr('frontend.engview.set_pred_last') }}">
+                                            <button id="predictionLastBtn" class="btn btn-sm btn-secondary">{{ i18n.tr('frontend.engview.last') }}</button>
                                         </span>
                                     </div>
                                 </div>
@@ -173,15 +176,15 @@
                 <div class="col-md-4 weather-col">
                     <div class="card border-secondary global-stats-section">
                         <div class="card-header border-secondary global-stats-section-header">
-                            <h5 class="mb-0">Weather Forecast</h5>
+                            <h5 class="mb-0">{{ i18n.tr('frontend.engview.weather_forecast') }}</h5>
                             <div class="btn-group btn-group-sm" role="group" id="weatherDisplayToggle">
-                                <button type="button" class="btn btn-outline-secondary" data-value="table" data-bs-toggle="tooltip" data-bs-title="Table only">
+                                <button type="button" class="btn btn-outline-secondary" data-value="table" data-bs-toggle="tooltip" data-bs-title="{{ i18n.tr('frontend.engview.table_only') }}">
                                     <i class="bi bi-table"></i>
                                 </button>
-                                <button type="button" class="btn btn-outline-secondary active" data-value="both" data-bs-toggle="tooltip" data-bs-title="Table &amp; Graph">
+                                <button type="button" class="btn btn-outline-secondary active" data-value="both" data-bs-toggle="tooltip" data-bs-title="{{ i18n.tr('frontend.engview.table_graph') }}">
                                     <i class="bi bi-layout-split"></i>
                                 </button>
-                                <button type="button" class="btn btn-outline-secondary" data-value="graph" data-bs-toggle="tooltip" data-bs-title="Graph only">
+                                <button type="button" class="btn btn-outline-secondary" data-value="graph" data-bs-toggle="tooltip" data-bs-title="{{ i18n.tr('frontend.engview.graph_only') }}">
                                     <i class="bi bi-graph-up"></i>
                                 </button>
                             </div>
@@ -191,7 +194,7 @@
                                 <button id="weatherSessionPrevBtn" class="btn btn-sm btn-secondary">
                                     <i class="bi bi-chevron-left"></i>
                                 </button>
-                                <span id="weatherSessionName" class="fw-semibold weather-session-name">Session Name</span>
+                                <span id="weatherSessionName" class="fw-semibold weather-session-name">{{ i18n.tr('frontend.engview.session_overview') }}</span>
                                 <button id="weatherSessionNextBtn" class="btn btn-sm btn-secondary">
                                     <i class="bi bi-chevron-right"></i>
                                 </button>
@@ -210,7 +213,7 @@
                 <div class="col-md-3 track-map-col">
                     <div class="card border-secondary global-stats-section">
                         <div class="card-header border-secondary global-stats-section-header">
-                            <h5 class="mb-0" id="trackMapHeader">Track Map</h5>
+                            <h5 class="mb-0" id="trackMapHeader">{{ i18n.tr('frontend.engview.track_map') }}</h5>
                             <div class="track-map-rotation-ctrl" id="trackMapRotationCtrl">
                                 <i class="bi bi-arrow-repeat track-map-rotation-label"></i>
                                 <input type="range" class="track-map-rotation-slider" id="trackMapRotationSlider" min="0" max="359" value="0" step="1">
@@ -218,13 +221,13 @@
                             </div>
                             <a href="/eng-view/trackmap" target="_blank" rel="noopener noreferrer"
                                class="btn btn-sm btn-outline-secondary" data-bs-toggle="tooltip"
-                               data-bs-title="Open Track Map fullscreen in new tab">
+                               data-bs-title="{{ i18n.tr('frontend.engview.open_track_map_fullscreen') }}">
                                 <i class="bi bi-arrows-fullscreen"></i>
                             </a>
                         </div>
                         <div class="card-body" id="trackMapContainer">
                             <!-- Track map SVG + Canvas overlay injected by trackMap.js -->
-                            <div class="track-map-fallback">Waiting for session data…</div>
+                            <div class="track-map-fallback">{{ i18n.tr('frontend.engview.waiting_session_data') }}</div>
                         </div>
                     </div>
                 </div>
@@ -240,29 +243,29 @@
         <!-- Column Visibility Pane -->
         <div id="column-visibility-pane" class="column-visibility-pane">
             <div class="pane-header">
-                <h2>Column Settings</h2>
-                <button id="close-pane-btn" class="btn-close btn-close-white" aria-label="Close"></button>
+                <h2>{{ i18n.tr('frontend.engview.column_settings') }}</h2>
+                <button id="close-pane-btn" class="btn-close btn-close-white" aria-label="{{ i18n.tr('common.close') }}"></button>
             </div>
             <div class="pane-profiles-bar">
                 <div class="pane-profiles-row">
-                    <select id="column-profile-select" class="form-select form-select-sm profile-select" title="Select a column profile">
-                        <option value="__full__">Full</option>
+                    <select id="column-profile-select" class="form-select form-select-sm profile-select" title="{{ i18n.tr('frontend.engview.select_column_profile') }}">
+                        <option value="__full__">{{ i18n.tr('frontend.engview.full') }}</option>
                     </select>
-                    <button id="rename-profile-btn" class="btn btn-sm btn-outline-light" data-bs-toggle="tooltip" data-bs-title="Rename this profile">
+                    <button id="rename-profile-btn" class="btn btn-sm btn-outline-light" data-bs-toggle="tooltip" data-bs-title="{{ i18n.tr('frontend.engview.rename_profile') }}">
                         <i class="bi bi-pencil"></i>
                     </button>
-                    <button id="new-profile-btn" class="btn btn-sm btn-outline-success" data-bs-toggle="tooltip" data-bs-title="Create a new profile from current columns">
+                    <button id="new-profile-btn" class="btn btn-sm btn-outline-success" data-bs-toggle="tooltip" data-bs-title="{{ i18n.tr('frontend.engview.create_profile') }}">
                         <i class="bi bi-plus-lg"></i>
                     </button>
-                    <button id="delete-profile-btn" class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip" data-bs-title="Delete this profile">
+                    <button id="delete-profile-btn" class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip" data-bs-title="{{ i18n.tr('frontend.engview.delete_profile') }}">
                         <i class="bi bi-trash"></i>
                     </button>
                 </div>
             </div>
             <div class="pane-actions-bar">
-                <button id="reset-visibility-btn" class="btn btn-sm btn-secondary" data-bs-toggle="tooltip" data-bs-title="Reset all column visibilities to default">Reset Visibilities</button>
-                <button id="reset-layout-btn" class="btn btn-sm btn-secondary" data-bs-toggle="tooltip" data-bs-title="Reset all column positions and widths to default">Reset Layout</button>
-                <button id="autoFitColumnsBtn" class="btn btn-sm btn-secondary" data-bs-toggle="tooltip" data-bs-title="Auto-size all columns to fit content">Auto Fit</button>
+                <button id="reset-visibility-btn" class="btn btn-sm btn-secondary" data-bs-toggle="tooltip" data-bs-title="{{ i18n.tr('frontend.engview.reset_visibilities_tooltip') }}">{{ i18n.tr('frontend.engview.reset_visibilities') }}</button>
+                <button id="reset-layout-btn" class="btn btn-sm btn-secondary" data-bs-toggle="tooltip" data-bs-title="{{ i18n.tr('frontend.engview.reset_layout_tooltip') }}">{{ i18n.tr('frontend.engview.reset_layout') }}</button>
+                <button id="autoFitColumnsBtn" class="btn btn-sm btn-secondary" data-bs-toggle="tooltip" data-bs-title="{{ i18n.tr('frontend.engview.auto_fit_tooltip') }}">{{ i18n.tr('frontend.engview.auto_fit') }}</button>
             </div>
             <div class="pane-body">
                 <div id="column-visibility-container">
@@ -274,14 +277,14 @@
         <!-- Track Map Drawer -->
         <div id="track-map-drawer" class="context-drawer">
             <div class="context-drawer-header">
-                <h5>Track Map</h5>
+                <h5>{{ i18n.tr('frontend.engview.track_map') }}</h5>
                 <div class="track-map-rotation-ctrl" id="trackMapDrawerRotationCtrl">
                     <i class="bi bi-arrow-repeat track-map-rotation-label"></i>
                     <input type="range" class="track-map-rotation-slider" id="trackMapDrawerRotationSlider" min="0" max="359" value="0" step="1">
                     <input type="number" class="track-map-rotation-input" id="trackMapDrawerRotationInput" min="0" max="359" value="0" step="1">
                 </div>
                 <button class="btn-close btn-close-white context-drawer-close"
-                        data-drawer="track-map-drawer" aria-label="Close"></button>
+                        data-drawer="track-map-drawer" aria-label="{{ i18n.tr('common.close') }}"></button>
             </div>
             <div class="context-drawer-body" id="trackMapDrawerBody"></div>
         </div>
@@ -289,9 +292,9 @@
         <!-- Weather Drawer -->
         <div id="weather-drawer" class="context-drawer">
             <div class="context-drawer-header">
-                <h5>Weather</h5>
+                <h5>{{ i18n.tr('frontend.engview.weather_forecast') }}</h5>
                 <button class="btn-close btn-close-white context-drawer-close"
-                        data-drawer="weather-drawer" aria-label="Close"></button>
+                        data-drawer="weather-drawer" aria-label="{{ i18n.tr('common.close') }}"></button>
             </div>
             <div class="context-drawer-body" id="weatherDrawerBody"></div>
         </div>
@@ -308,7 +311,7 @@
                         class="modal-header driver-modal-header d-flex justify-content-between align-items-center bg-dark border border-dark-subtle rounded">
                         <!-- Title and Navigation Buttons -->
                         <div class="d-flex align-items-center">
-                            <h5 class="modal-title m-0 text-white" id="driverModalLabel">Driver Details</h5>
+                            <h5 class="modal-title m-0 text-white" id="driverModalLabel">{{ i18n.tr('frontend.modal.driver_details') }}</h5>
                         </div>
                         <!-- Refresh and Close Buttons -->
                         <div class="d-flex align-items-center">
@@ -337,7 +340,7 @@
           <div class="modal-header race-stats-modal-header d-flex justify-content-between align-items-center bg-dark border border-dark-subtle rounded">
             <!-- Title and Navigation Buttons -->
             <div class="d-flex align-items-center">
-              <h5 class="modal-title m-0 text-white" id="raceStatsModalLabel">Race Stats</h5>
+              <h5 class="modal-title m-0 text-white" id="raceStatsModalLabel">{{ i18n.tr('frontend.modal.race_stats') }}</h5>
             </div>
             <!-- Refresh and Close Buttons -->
             <div class="d-flex align-items-center">

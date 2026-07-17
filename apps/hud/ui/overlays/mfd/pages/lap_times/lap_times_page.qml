@@ -3,7 +3,7 @@ import QtQuick.Controls 2.15
 
 Item {
     id: root
-    property string title: "LAP TIMES"
+    property string title: i18n["hud.lap_times_page.title"] || "LAP TIMES"
 
     /* -----------------------------
      * CONFIG
@@ -11,7 +11,7 @@ Item {
     readonly property int numRows: 5
     readonly property int numCols: 5
 
-    readonly property var headers: ["Lap", "S1", "S2", "S3", "Time"]
+    readonly property var headers: [i18n["hud.lap_times_page.lap"] || "Lap", i18n["hud.lap_times_page.s1"] || "S1", i18n["hud.lap_times_page.s2"] || "S2", i18n["hud.lap_times_page.s3"] || "S3", i18n["hud.lap_times_page.time"] || "Time"]
 
     // Column width ratios (must sum to 1.0)
     readonly property var columnWidthRatios: [0.12, 0.22, 0.22, 0.22, 0.22]  // Lap, S1, S2, S3, Time

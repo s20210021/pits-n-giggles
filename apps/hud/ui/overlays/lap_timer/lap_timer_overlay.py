@@ -33,6 +33,7 @@ from apps.hud.common import (get_ref_row, is_practice_session, is_tt_session,
 from apps.hud.ui.overlays.base import BaseOverlay
 from lib.config import OverlayId, OverlayPosition
 from lib.f1_types import F1Utils
+from lib.i18n import tr
 
 # -------------------------------------- CLASSES -----------------------------------------------------------------------
 
@@ -194,7 +195,7 @@ class LapTimerOverlay(BaseOverlay):
         if is_race_type_session(session_type):
             # In races, ignore driver_status completely, only consider sc status
             if self._is_safety_car(sc_status):
-                self._update_curr_lap_str("VSC" if sc_status == "VIRTUAL_SAFETY_CAR" else "SC")
+                self._update_curr_lap_str(tr("hud.lap_timer.vsc") if sc_status == "VIRTUAL_SAFETY_CAR" else tr("hud.lap_timer.sc"))
             else:
                 self._update_curr_lap(curr_lap["lap-time-ms"])
 
@@ -500,9 +501,9 @@ class LapTimerOverlay(BaseOverlay):
         self.set_qml_property("isSafetyCar", is_sc)
         if is_sc:
             if self.min_overlay_style:
-                text = "VSC" if sc_status == "VIRTUAL_SAFETY_CAR" else "SC"
+                text = tr("hud.lap_timer.vsc") if sc_status == "VIRTUAL_SAFETY_CAR" else tr("hud.lap_timer.sc")
             else:
-                text = "VIRTUAL SAFETY CAR" if sc_status == "VIRTUAL_SAFETY_CAR" else "SAFETY CAR"
+                text = tr("hud.lap_timer.virtual_safety_car") if sc_status == "VIRTUAL_SAFETY_CAR" else tr("hud.lap_timer.safety_car")
             self.set_qml_property("safetyCarText", text)
         else:
             self.set_qml_property("safetyCarText", "")

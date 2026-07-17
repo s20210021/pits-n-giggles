@@ -50,21 +50,7 @@ Window {
     }
 
     function colHeaderLabel(colId) {
-        switch(colId) {
-            case "delta":         return "DELTA"
-            case "delta_to_leader": return "LEADER"
-            case "tyre":          return "TYRE"
-            case "ers_drs":       return "ERS/DRS"
-            case "pens":          return "PEN"
-            case "tl_warns":      return "TL"
-            case "best_lap":      return "BEST"
-            case "last_lap":      return "LAST"
-            case "wing_dmg":      return "DMG"
-            case "speed_trap":    return "TRAP"
-            case "fuel":          return "FUEL"
-            case "driver_status": return "STATUS"
-            default:              return colId
-        }
+        return i18n["hud.timing_tower." + colId] || colId.toUpperCase()
     }
 
     // Column cell components — defined once at root level so they are not
@@ -379,7 +365,7 @@ Window {
                                 height: parent.height
                                 Text {
                                     anchors.fill: parent
-                                    text: "P"
+                                    text: i18n["hud.timing_tower.p"] || "P"
                                     font.family: "Formula1"
                                     font.pixelSize: 10
                                     color: "#666666"
@@ -411,7 +397,7 @@ Window {
                                 height: parent.height
                                 Text {
                                     anchors.fill: parent
-                                    text: "DRIVER"
+                                    text: i18n["hud.timing_tower.driver"] || "DRIVER"
                                     font.family: "Formula1"
                                     font.pixelSize: 10
                                     color: "#666666"
@@ -618,7 +604,7 @@ Window {
                             Text {
                                 width: ttColLapTime
                                 height: parent.height
-                                text: "LAP"
+                                text: i18n["hud.timing_tower.lap"] || "LAP"
                                 font.family: "Formula1"
                                 font.pixelSize: 10
                                 color: "#888888"
@@ -628,7 +614,7 @@ Window {
                             Text {
                                 width: ttColSector
                                 height: parent.height
-                                text: "S1"
+                                text: i18n["hud.timing_tower.s1"] || "S1"
                                 font.family: "Formula1"
                                 font.pixelSize: 10
                                 color: "#888888"
@@ -638,7 +624,7 @@ Window {
                             Text {
                                 width: ttColSector
                                 height: parent.height
-                                text: "S2"
+                                text: i18n["hud.timing_tower.s2"] || "S2"
                                 font.family: "Formula1"
                                 font.pixelSize: 10
                                 color: "#888888"
@@ -648,7 +634,7 @@ Window {
                             Text {
                                 width: ttColSector
                                 height: parent.height
-                                text: "S3"
+                                text: i18n["hud.timing_tower.s3"] || "S3"
                                 font.family: "Formula1"
                                 font.pixelSize: 10
                                 color: "#888888"

@@ -39,6 +39,7 @@ from PySide6.QtWidgets import (QButtonGroup, QCheckBox, QDialog, QFrame,
                                QStackedWidget, QVBoxLayout, QWidget)
 
 from lib.config import PngSettings
+from lib.i18n import tr
 
 from .collapsible_group import CollapsibleGroup
 from .overlay_settings_page import OverlaySettingsPage
@@ -95,7 +96,7 @@ class SettingsWindow(QDialog):
 
     def setup_ui(self):
         """Setup the settings dialog UI"""
-        self.setWindowTitle("Settings")
+        self.setWindowTitle(tr("launcher.settings_window.title"))
         self.setMinimumSize(1000, 700)
 
         # Apply dark theme
@@ -240,14 +241,14 @@ class SettingsWindow(QDialog):
 
         # Search bar
         search_layout = QHBoxLayout()
-        search_label = QLabel("Search:")
+        search_label = QLabel(tr("launcher.settings_window.search"))
         search_label.setFixedWidth(60)
         self.search_input = QLineEdit()
-        self.search_input.setPlaceholderText("Search settings by description...")
+        self.search_input.setPlaceholderText(tr("launcher.settings_window.search_placeholder"))
         self.search_input.textChanged.connect(self._on_search_changed)
 
         # Clear button for search
-        clear_search_btn = QPushButton("Clear")
+        clear_search_btn = QPushButton(tr("launcher.settings_window.clear"))
         clear_search_btn.setMaximumWidth(60)
         clear_search_btn.clicked.connect(self.search_input.clear)
 
@@ -304,23 +305,23 @@ class SettingsWindow(QDialog):
         button_layout = QHBoxLayout()
         button_layout.addStretch()
 
-        revert_btn = QPushButton("Revert Changes")
+        revert_btn = QPushButton(tr("launcher.settings_window.revert"))
         revert_btn.clicked.connect(self.on_revert)
         button_layout.addWidget(revert_btn)
 
-        reset_btn = QPushButton("Reset to Defaults")
+        reset_btn = QPushButton(tr("launcher.settings_window.reset_defaults"))
         reset_btn.clicked.connect(self.on_reset)
         button_layout.addWidget(reset_btn)
 
-        reset_section_btn = QPushButton("Reset Section to Defaults")
+        reset_section_btn = QPushButton(tr("launcher.settings_window.reset_section"))
         reset_section_btn.clicked.connect(self.on_reset_section)
         button_layout.addWidget(reset_section_btn)
 
-        cancel_btn = QPushButton("Cancel")
+        cancel_btn = QPushButton(tr("launcher.settings_window.cancel"))
         cancel_btn.clicked.connect(self.reject)
         button_layout.addWidget(cancel_btn)
 
-        save_btn = QPushButton("Save")
+        save_btn = QPushButton(tr("launcher.settings_window.save"))
         save_btn.clicked.connect(self.on_save)
         button_layout.addWidget(save_btn)
 
@@ -1224,7 +1225,7 @@ class SettingsWindow(QDialog):
         layout.setContentsMargins(10, 10, 10, 10)
         layout.setSpacing(8)
 
-        title = QLabel("UDP Action Codes")
+        title = QLabel(tr("launcher.settings_window.udp_action_codes"))
         title.setFont(QFont("Formula1", 11, QFont.Weight.Bold))
         title.setStyleSheet("color: #569cd6; background-color: transparent; padding-bottom: 4px;")
         layout.addWidget(title)
@@ -1262,7 +1263,7 @@ class SettingsWindow(QDialog):
         mappings = self._collect_udp_action_codes()
 
         if not mappings:
-            no_item = QLabel("No mappings configured")
+            no_item = QLabel(tr("launcher.settings_window.no_mappings"))
             no_item.setStyleSheet("color: #6a6a6a; font-style: italic; background-color: transparent;")
             self.udp_list_layout.addWidget(no_item)
         else:
@@ -1393,29 +1394,29 @@ class SettingsWindow(QDialog):
         """Reset settings to original values"""
         reply = QMessageBox.question(
             self,
-            "Revert Changes",
-            "Discard all unsaved changes and restore the last saved settings?",
+            tr("launcher.settings_window.revert_title"),
+            tr("launcher.settings_window.revert_msg"),
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
         )
 
         if reply == QMessageBox.StandardButton.Yes:
             self.working_settings = self.original_settings.model_copy(deep=True)
             self._populate_widgets_from_settings()
-            self.parent_window.info_log("Settings reset to last saved values")
+            self.parent_window.info_log(tr("launcher.settings_window.reverted"))
 
     def on_reset(self):
         """Reset settings to default values"""
         reply = QMessageBox.question(
             self,
-            "Reset Settings",
-            "Are you sure you want to reset all settings to their factory default values?",
+            tr("launcher.settings_window.reset_title"),
+            tr("launcher.settings_window.reset_msg"),
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
         )
 
         if reply == QMessageBox.StandardButton.Yes:
             self.working_settings = PngSettings()
             self._populate_widgets_from_settings()
-            self.parent_window.info_log("Settings reset to factory default values")
+            self.parent_window.info_log(tr("launcher.settings_window.reset_factory"))
 
     def on_reset_section(self):
         """Reset only the currently selected settings section to default values"""

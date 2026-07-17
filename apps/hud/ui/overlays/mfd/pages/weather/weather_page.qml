@@ -6,7 +6,7 @@ Item {
     width: parent ? parent.width : 600
     height: parent ? parent.height : 220
     clip: true
-    property string title: "WEATHER FORECAST"
+    property string title: i18n["hud.weather.title"] || "WEATHER FORECAST"
 
     /* ---------- UI MODE ---------- */
     property bool graphBasedUI: true
@@ -92,7 +92,7 @@ Item {
                 Text {
                     visible: forecastData.length === 0
                     anchors.centerIn: parent
-                    text: "WAITING FOR DATA ..."
+                    text: i18n["weather.waiting"] || "WAITING FOR DATA ..."
                     font.family: "Formula1"
                     font.pixelSize: 14
                     font.weight: Font.Bold
@@ -153,7 +153,7 @@ Item {
             Text {
                 text: {
                     const offset = cardData["time-offset"] || 0
-                    return offset > 0 ? `+${offset}m` : "Now"
+                    return offset > 0 ? `+${offset}m` : (i18n["weather.now"] || "Now")
                 }
                 font.family: "Consolas"
                 font.pixelSize: 13
@@ -240,7 +240,7 @@ Item {
             }
 
             Text {
-                text: temperature !== undefined ? `${temperature}°C` : "N/A"
+                text: temperature !== undefined ? `${temperature}°C` : (i18n["common.na"] || "N/A")
                 font.family: "Consolas"
                 font.pixelSize: 11
                 font.weight: Font.Bold
@@ -546,7 +546,7 @@ Item {
                         Text {
                             text: {
                                 const offset = forecastData[index]["time-offset"] || 0
-                                return offset > 0 ? `+${offset}m` : "Now"
+                                return offset > 0 ? `+${offset}m` : (i18n["weather.now"] || "Now")
                             }
                             font.family: "Consolas"
                             font.pixelSize: timeOffsetFontSize
@@ -588,7 +588,7 @@ Item {
                     anchors.verticalCenter: parent.verticalCenter
                 }
                 Text {
-                    text: "Rain %"
+                    text: i18n["weather.rain_pct"] || "Rain %"
                     font.family: "Consolas"
                     font.pixelSize: legendFontSize
                     color: rainColor
@@ -605,7 +605,7 @@ Item {
                     anchors.verticalCenter: parent.verticalCenter
                 }
                 Text {
-                    text: "Track °C"
+                    text: i18n["weather.track_temp"] || "Track °C"
                     font.family: "Consolas"
                     font.pixelSize: legendFontSize
                     color: trackTempColor
@@ -622,7 +622,7 @@ Item {
                     anchors.verticalCenter: parent.verticalCenter
                 }
                 Text {
-                    text: "Air °C"
+                    text: i18n["weather.air_temp"] || "Air °C"
                     font.family: "Consolas"
                     font.pixelSize: legendFontSize
                     color: airTempColor

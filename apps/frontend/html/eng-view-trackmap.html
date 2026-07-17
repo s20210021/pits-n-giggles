@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pits n' Giggles Track Map {{ version }}</title>
+    <title>{{ i18n.tr('frontend.brand_track_map') }} {{ version }}</title>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js" integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/msgpack-lite@0.1.26/dist/msgpack.min.js" integrity="sha384-MWenGdy0IO91D1IxYZ3jomrUiVLYQO2MbFrzI61UCdaN80K3Ys3u8eLu/ZDlaoIm" crossorigin="anonymous"></script>
@@ -180,10 +180,13 @@
 </head>
 <body>
     <div id="trackMapContainer">
-        <div class="track-map-fallback">Waiting for session data…</div>
+        <div class="track-map-fallback">{{ i18n.tr('frontend.engview.waiting_session_data') }}</div>
     </div>
     <div id="trackLabel"></div>
 
+    <!-- i18n: embed translations and load helper -->
+    <script>window.__i18n = {{ i18n_dict() | tojson | safe }};</script>
+    <script src="{{ url_for('static', filename='js/i18n.js') }}"></script>
     <script src="{{ url_for('static', filename='js/utils.js') }}"></script>
     <script src="{{ url_for('static', filename='js/trackMap.js') }}"></script>
     <script>

@@ -245,6 +245,18 @@ class BaseOverlay(QmlBridge, QObject):
         qml_logger = QmlLogger(self.logger, self.OVERLAY_ID)
         self._engine.rootContext().setContextProperty("Log", qml_logger)
 
+        # Inject i18n translations into QML context as a flat dict
+        try:
+            from lib.i18n import get_translation_manager
+            i18n_mgr = get_translation_manager()
+            self._engine.rootContext().setContextProperty(
+                "i18n", i18n_mgr.as_flat_dict()
+            )
+        except Exception:
+            # i18n is optional — QML must handle missing translations gracefully
+            self._engine.rootContext().setContextProperty("i18n", {})
+            self.logger.warning("i18n not available for QML overlay '%s'", self.OVERLAY_ID)
+
         qml_path = self.QML_FILE.resolve()
         self._engine.load(QUrl.fromLocalFile(str(qml_path)))
 

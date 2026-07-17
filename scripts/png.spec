@@ -115,6 +115,9 @@ datas.extend(collect_directory("assets", "assets"))
 # f1-telemetry-viewer React app (built by build.py before PyInstaller runs)
 datas.extend(collect_directory("apps/external/f1-save-viewer/dist", "apps/external/f1-save-viewer/dist"))
 
+# i18n locales
+datas.extend(collect_directory("locales", "locales"))
+
 # QML files (hardcoded intentionally, since they don't have an explicit assets path)
 def qml_file(path, filename):
     """Helper to add a QML file with less repetition.

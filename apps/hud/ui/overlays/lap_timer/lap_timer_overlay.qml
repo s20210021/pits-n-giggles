@@ -103,7 +103,7 @@ Window {
                                 spacing: 3
 
                                 Text {
-                                    text: "CURRENT"
+                                    text: i18n["hud.lap_timer.current"] || "CURRENT"
                                     font.family: "Formula1"
                                     font.pixelSize: 9
                                     font.letterSpacing: 1.5
@@ -128,7 +128,7 @@ Window {
                                 spacing: 3
 
                                 Text {
-                                    text: "DELTA"
+                                    text: i18n["hud.lap_timer.delta"] || "DELTA"
                                     font.family: "Formula1"
                                     font.pixelSize: 9
                                     font.letterSpacing: 1.5
@@ -182,7 +182,7 @@ Window {
                             spacing: 3
 
                             Text {
-                                text: "LAST"
+                                text: i18n["hud.lap_timer.last"] || "LAST"
                                 font.family: "Formula1"
                                 font.pixelSize: 9
                                 font.letterSpacing: 1.2
@@ -228,7 +228,7 @@ Window {
                                 spacing: 5
 
                                 Text {
-                                    text: "BEST"
+                                    text: i18n["hud.lap_timer.best"] || "BEST"
                                     font.family: "Formula1"
                                     font.pixelSize: 9
                                     font.letterSpacing: 1.2
@@ -280,7 +280,7 @@ Window {
                         spacing: 0
 
                         Text {
-                            text: "EST"
+                            text: i18n["hud.lap_timer.est"] || "EST"
                             font.family: "Formula1"
                             font.pixelSize: 9
                             font.letterSpacing: 1.5

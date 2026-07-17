@@ -37,6 +37,10 @@ from lib.web_server import BaseWebServer, ClientType
 
 from .request_handlers import RequestError, handleDriverInfoRequest
 
+# i18n
+from lib.i18n import get_translation_manager
+from lib.i18n.manager import TranslationManager
+
 # -------------------------------------- GLOBALS -----------------------------------------------------------------------
 
 # -------------------------------------- CLASS DEFINITIONS -------------------------------------------------------------
@@ -86,6 +90,42 @@ class TelemetryWebServer(BaseWebServer):
             cert_path=settings.HTTPS.cert_path,
             key_path=settings.HTTPS.key_path,
             debug_mode=debug_mode)
+
+        # Inject i18n translation manager into Jinja2 template context
+        self._i18n = get_translation_manager()
+        lang = getattr(settings.Display, "language", "auto")
+        if lang != "auto":
+            try:
+                self._i18n.current_locale = lang
+            except KeyError:
+                logger.warning(
+                    "i18n: language '%s' not available, falling back to '%s'",
+                    lang, self._i18n.current_locale,
+                )
+        else:
+            detected = TranslationManager.detect_system_locale(
+                self._i18n.available_locales, default="en"
+            )
+            if detected != "en":
+                try:
+                    self._i18n.current_locale = detected
+                except KeyError:
+                    pass
+            logger.info("i18n: auto-detected locale '%s'", self._i18n.current_locale)
+
+        @self.m_app.context_processor
+        def inject_i18n():
+            return {"i18n": self._i18n}
+
+        # Jinja2 filter: {{ "frontend.table.header_pos" | tr }}
+        self.m_app.add_template_filter(
+            lambda key, **kw: self._i18n.tr(key, **kw), "tr"
+        )
+
+        # Jinja2 globals for embedding translations in JS
+        self.m_app.add_template_global(self._i18n.as_json, name="i18n_json")
+        self.m_app.add_template_global(self._i18n.as_flat_dict, name="i18n_dict")
+
         self.define_routes()
         self.register_post_start_callback(self._post_start)
         self.m_show_start_sample_data = settings.StreamOverlay.show_sample_data_at_start

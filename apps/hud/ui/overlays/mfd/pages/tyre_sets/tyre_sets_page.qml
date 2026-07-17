@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.15
 
 Item {
     id: root
-    property string title: "TYRE SETS"
+    property string title: i18n["hud.tyre_sets.title"] || "TYRE SETS"
 
     property var bestSets: []
     property var compoundMappings: []
@@ -37,7 +37,7 @@ Item {
         // =========================
 
         Label {
-            text: "BEST AVAILABLE SETS"
+            text: i18n["tyre.best_available_sets"] || "BEST AVAILABLE SETS"
             color: textDim
             font.pixelSize: 9
             font.family: "Formula1"
@@ -101,7 +101,7 @@ Item {
                             }
 
                             Label {
-                                text: "s/lap"
+                                text: i18n["tyre.s_per_lap"] || "s/lap"
                                 font.pixelSize: 9
                                 color: textDim
                             }
@@ -124,7 +124,7 @@ Item {
         // =========================
 
         Label {
-            text: "ACTUAL COMPOUNDS"
+            text: i18n["tyre.actual_compounds"] || "ACTUAL COMPOUNDS"
             color: textDim
             font.pixelSize: 9
             font.family: "Formula1"

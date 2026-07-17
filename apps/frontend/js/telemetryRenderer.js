@@ -1,3 +1,5 @@
+const t = (k, p) => window.__i18n.tr(k, p);
+
 class TelemetryRenderer {
   constructor(iconCache) {
     this.timeTrialDataPopulator = new TimeTrialDataPopulator();
@@ -255,7 +257,7 @@ class TelemetryRenderer {
     // Clear any existing content in the span
     trackNameContainer.textContent = "";
     if ("---" === trackName) {
-      this.trackName.textContent = "PITS N' GIGGLES";
+      this.trackName.textContent = t('frontend.brand');
     } else {
       // Create the first div for the track name
       const trackNameDiv = document.createElement("div");
@@ -628,8 +630,8 @@ class TelemetryRenderer {
 
     // update text
     this.statusText.textContent = connected
-      ? 'Connected to F1 game. Waiting for session start ...'
-      : 'Waiting for F1 game UDP telemetry data ...'
+      ? t('frontend.status.connected_waiting')
+      : t('frontend.status.waiting_session')
   }
 
 }

@@ -3,7 +3,7 @@ import QtQuick.Layouts
 
 Item {
     id: root
-    property string title: "TYRE WEAR INFO"
+    property string title: i18n["hud.tyre_wear.title"] || "TYRE WEAR INFO"
 
     /* ---------- ASSETS ---------- */
     property string iconSourcePrefix: "../../../../../../../assets/tyre-icons/"
@@ -99,7 +99,7 @@ Item {
                         Rectangle { width: 1; height: 16; color: borderColor }
 
                         Text {
-                            text: "Age"
+                            text: i18n["hud.tyre_wear.age"] || "Age"
                             font.family: "Formula1"
                             font.pixelSize: 11
                             color: dimColor
@@ -119,7 +119,7 @@ Item {
                         spacing: 6
 
                         Text {
-                            text: "Wear Rate"
+                            text: i18n["hud.tyre_wear.wear_rate"] || "Wear Rate"
                             font.family: "Formula1"
                             font.pixelSize: 10
                             color: dimColor
@@ -152,7 +152,7 @@ Item {
 
                     Text {
                         Layout.alignment: Qt.AlignHCenter
-                        text: "UNUSED SETS"
+                        text: i18n["tyre.unused_sets"] || "UNUSED SETS"
                         font.family: "Formula1"
                         font.pixelSize: 8
                         font.letterSpacing: 1
@@ -234,7 +234,7 @@ Item {
             Text {
                 anchors.centerIn: parent
                 visible: root.telemetryDisabled
-                text: "Telemetry disabled — wear data unavailable"
+                text: i18n["tyre.telemetry_disabled_wear"] || "Telemetry disabled — wear data unavailable"
                 font.family: "Formula1"
                 font.pixelSize: 12
                 color: dangerColor
@@ -263,7 +263,7 @@ Item {
                         height: tableRect.headerH
 
                         Repeater {
-                            model: ["LAP", "FL", "FR", "RL", "RR"]
+                            model: [i18n["hud.tyre_wear.lap"] || "LAP", i18n["hud.tyre_wear.fl"] || "FL", i18n["hud.tyre_wear.fr"] || "FR", i18n["hud.tyre_wear.rl"] || "RL", i18n["hud.tyre_wear.rr"] || "RR"]
 
                             Rectangle {
                                 width: tableRect.colW
