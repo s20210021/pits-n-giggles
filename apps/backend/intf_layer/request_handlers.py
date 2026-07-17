@@ -29,6 +29,8 @@ from typing import Any, Dict, Optional
 from apps.backend.state_mgmt_layer import SessionState
 from apps.backend.state_mgmt_layer.intf import DriverInfoRsp
 
+from lib.i18n import tr
+
 # -------------------------------------- TYPES -------------------------------------------------------------------------
 
 class RequestError(Enum):
@@ -68,13 +70,13 @@ def handleDriverInfoRequest(session_state: SessionState, index_arg: Any) -> Driv
     """
 
     if index_arg is None:
-        return DriverInfoResult.failure(RequestError.MISSING_PARAM, 'Provide "index" parameter')
+        return DriverInfoResult.failure(RequestError.MISSING_PARAM, tr('backend.error.missing_index_param'))
 
     if not isinstance(index_arg, int) and not str(index_arg).isdigit():
-        return DriverInfoResult.failure(RequestError.INVALID_PARAM, '"index" parameter must be numeric')
+        return DriverInfoResult.failure(RequestError.INVALID_PARAM, tr('backend.error.index_must_be_numeric'))
 
     index_int = int(index_arg)
     if not session_state.isIndexValid(index_int):
-        return DriverInfoResult.failure(RequestError.NOT_FOUND, f'No driver at index {index_int}')
+        return DriverInfoResult.failure(RequestError.NOT_FOUND, tr('backend.error.no_driver_at_index', index=index_int))
 
     return DriverInfoResult.success(DriverInfoRsp(session_state, index_int).toJSON())

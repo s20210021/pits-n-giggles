@@ -1,4 +1,6 @@
 // F1 Tyre Stint Chart Class
+const t = (k, p) => window.__i18n.tr(k, p);
+
 class TyreStintChart {
   constructor(container, options = {}, iconCache) {
     if (typeof container === 'string') {

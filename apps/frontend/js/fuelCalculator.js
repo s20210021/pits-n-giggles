@@ -1,3 +1,5 @@
+const t = (k, p) => window.__i18n.tr(k, p);
+
 class FuelCalculator {
     constructor(container, lapsData, options = {}) {
         this.container = container;

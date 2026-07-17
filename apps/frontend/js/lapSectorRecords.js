@@ -1,3 +1,5 @@
+const t = (k, p) => window.__i18n.tr(k, p);
+
 class F1LapSectorRecords {
   constructor(containerDiv) {
     this.container = containerDiv;
@@ -13,11 +15,11 @@ class F1LapSectorRecords {
   showLoading() {
     this.container.textContent = '';
     const loadingDiv = this.createElement('div', 'f1-lapsec-records-loading');
-    loadingDiv.textContent = 'Loading records...';
+    loadingDiv.textContent = t('frontend.records.loading');
     this.container.appendChild(loadingDiv);
   }
 
-  showError(message = 'Error loading records') {
+  showError(message = t('frontend.records.error_loading')) {
     this.container.textContent = '';
     const errorDiv = this.createElement('div', 'f1-lapsec-records-error');
     errorDiv.textContent = message;
@@ -42,8 +44,8 @@ class F1LapSectorRecords {
   createHeader() {
     const header = this.createElement('div', 'f1-lapsec-records-header');
 
-    const title = this.createElement('h1', 'f1-lapsec-records-title', 'Track Records');
-    const subtitle = this.createElement('p', 'f1-lapsec-records-subtitle', 'Fastest Lap & Sector Times');
+    const title = this.createElement('h1', 'f1-lapsec-records-title', t('frontend.records.track_records'));
+    const subtitle = this.createElement('p', 'f1-lapsec-records-subtitle', t('frontend.records.fastest_lap_sectors'));
 
     header.appendChild(title);
     header.appendChild(subtitle);
@@ -56,12 +58,12 @@ class F1LapSectorRecords {
 
     const sectionTitle = this.createElement('div', 'f1-lapsec-records-section-title');
     const icon = this.createElement('div', 'f1-lapsec-records-section-icon', '🏆');
-    const titleText = this.createElement('span', '', 'Fastest Lap');
+    const titleText = this.createElement('span', '', t('frontend.records.fastest_lap'));
     sectionTitle.appendChild(icon);
     sectionTitle.appendChild(titleText);
 
     if (!this.data.lap) {
-      const noData = this.createElement('div', 'f1-lapsec-records-no-data', 'No fastest lap data available');
+      const noData = this.createElement('div', 'f1-lapsec-records-no-data', t('frontend.records.no_fastest_lap_data'));
       section.appendChild(sectionTitle);
       section.appendChild(noData);
       return section;

@@ -37,6 +37,7 @@ from lib.assets_loader import (load_team_logos_uri_dict,
 from lib.config import (OverlayId, OverlayPosition, OverlaysFuelEstimationMode,
                         OverlaysSpeedUnit, TimingTowerColOptions)
 from lib.f1_types import F1Utils
+from lib.i18n import tr
 
 # -------------------------------------- CLASSES -----------------------------------------------------------------------
 

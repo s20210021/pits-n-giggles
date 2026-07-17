@@ -3,6 +3,7 @@ class RaceStatsModalPopulator {
         this.data = data;
         this.tableClassNames = 'table table-bordered table-striped table-dark table-sm align-middle';
         this.iconCache = iconCache;
+        this.t = (k, p) => window.__i18n.tr(k, p);
         this.defaultColors = [
             'rgba(75, 192, 192, 1)',   // Teal
             'rgba(255, 99, 132, 1)',   // Red
@@ -38,13 +39,13 @@ class RaceStatsModalPopulator {
 
         // Array of tabs with ID and label
         const tabs = [
-            { id: 'lap-time-records', label: 'Lap Time Records' },
-            { id: 'tyre-stint-records', label: 'Tyre Stint Records' },
-            { id: 'custom-markers', label: 'Custom Markers' },
-            { id: 'position-history', label: 'Position History' },
-            { id: 'tyre-stint-history', label: 'Tyre Stint History' },
-            { id: 'speed-trap-records', label: 'Speed Trap Records' },
-            { id: 'race-control-messages', label: 'Race Control Messages' },
+            { id: 'lap-time-records', label: this.t('frontend.tab.lap_time_records') },
+            { id: 'tyre-stint-records', label: this.t('frontend.tab.tyre_stint_records') },
+            { id: 'custom-markers', label: this.t('frontend.tab.custom_markers') },
+            { id: 'position-history', label: this.t('frontend.tab.position_history') },
+            { id: 'tyre-stint-history', label: this.t('frontend.tab.tyre_stint_history') },
+            { id: 'speed-trap-records', label: this.t('frontend.tab.speed_trap_records') },
+            { id: 'race-control-messages', label: this.t('frontend.tab.race_control') },
         ];
 
         // Sort tabs alphabetically based on the label
@@ -127,13 +128,13 @@ class RaceStatsModalPopulator {
         const thead = document.createElement('thead');
         const headerRow = document.createElement('tr');
         const headers = [
-            'Index',
-            'Event',
-            'Track',
-            'Sector',
-            'Lap',
-            'Lap Time',
-            'Lap Percent',
+            this.t('frontend.race_stats.index'),
+            this.t('frontend.race_stats.event'),
+            this.t('frontend.race_stats.track'),
+            this.t('frontend.race_stats.sector'),
+            this.t('frontend.race_stats.lap'),
+            this.t('frontend.race_stats.lap_time'),
+            this.t('frontend.race_stats.lap_percent'),
         ];
 
         headers.forEach(headerText => {
@@ -170,7 +171,7 @@ class RaceStatsModalPopulator {
             const row = customMarkersTableBody.insertRow();
             const td = document.createElement('td');
             td.colSpan = 7;
-            td.textContent = 'Custom Markers data not available';
+            td.textContent = this.t('frontend.race_stats.no_custom_markers');
             row.appendChild(td);
         }
 
@@ -204,13 +205,13 @@ class RaceStatsModalPopulator {
         const toggleLabel = document.createElement('label');
         toggleLabel.className = 'form-check-label';
         toggleLabel.setAttribute('for', 'tlaNameToggle');
-        toggleLabel.textContent = 'Show TLA';
+        toggleLabel.textContent = this.t('frontend.race_stats.show_tla');
 
         const infoIcon = document.createElement('i');
         infoIcon.className = 'bi bi-info-circle ms-1 info-icon';
         infoIcon.setAttribute('data-bs-toggle', 'tooltip');
         infoIcon.setAttribute('data-bs-placement', 'top');
-        infoIcon.setAttribute('title', 'Toggle between Three Letter Abbreviation (TLA) and full driver names on the chart.');
+        infoIcon.setAttribute('title', this.t('frontend.race_stats.tla_tooltip'));
 
         toggleContainer.appendChild(toggleInput);
         toggleContainer.appendChild(toggleLabel);
@@ -219,7 +220,7 @@ class RaceStatsModalPopulator {
 
         const positionHistoryArray = this.data["position-history"];
         if (!positionHistoryArray || positionHistoryArray.length === 0) {
-            this.showDataNotAvailableMessage(tabPane, "Position History data not available");
+            this.showDataNotAvailableMessage(tabPane, this.t('frontend.race_stats.no_position_history'));
             tabPane.appendChild(positionHistoryGraphSubDiv);
             return;
         }
@@ -266,7 +267,7 @@ class RaceStatsModalPopulator {
                 graphCanvas.id = elementId;
                 graphDiv.classList.add('chart-container');
 
-                this.plotGraphPositionHistory(graphCanvas, datasets, 'Lap number', 'Position');
+                this.plotGraphPositionHistory(graphCanvas, datasets, this.t('frontend.race_stats.lap_number'), this.t('frontend.race_stats.position'));
                 positionHistoryGraphSubDiv.appendChild(graphDiv);
             }
         };
@@ -291,7 +292,7 @@ class RaceStatsModalPopulator {
     populateTyreStintHistoryTab(tabPane) {
 
         if (this.data["session-info"] == null) {
-            this.showDataNotAvailableMessage(tabPane, "Tyre stint history data not available");
+            this.showDataNotAvailableMessage(tabPane, this.t('frontend.race_stats.no_tyre_stint_history'));
             return;
         }
 
@@ -328,7 +329,7 @@ class RaceStatsModalPopulator {
 
         const speedTrapRecords = this.data["speed-trap-records"] ?? [];
         if (speedTrapRecords.length == 0) {
-            this.showDataNotAvailableMessage(tabPane, "Speed Trap Records data not available");
+            this.showDataNotAvailableMessage(tabPane, this.t('frontend.race_stats.no_speed_trap'));
             return;
         }
 
@@ -342,9 +343,9 @@ class RaceStatsModalPopulator {
                              color: this.getF1TeamColor(record["team"]) });
         });
         chart.render(chartData, {
-            title: "Speed Trap Records",
-            xLabel: "Driver",
-             yLabel: `Speed (${unit})`,
+            title: this.t('frontend.race_stats.speed_trap_title'),
+            xLabel: this.t('frontend.race_stats.speed_trap_xlabel'),
+             yLabel: this.t('frontend.race_stats.speed_trap_ylabel', { unit }),
         });
 
         tabPane.appendChild(chartDiv);
@@ -353,7 +354,7 @@ class RaceStatsModalPopulator {
     populateRaceControlMessagesTabWrapper(tabPane) {
         const messages = this.data["race-control"] ?? [];
         if (messages.length === 0) {
-            this.showDataNotAvailableMessage(tabPane, "Race Control Messages data not available");
+            this.showDataNotAvailableMessage(tabPane, this.t('frontend.race_stats.no_race_control'));
             return;
         }
 
@@ -362,7 +363,7 @@ class RaceStatsModalPopulator {
             window.populateRaceControlMessagesTab(tabPane, messages);
         } else {
             console.error('populateRaceControlMessagesTab function not found.');
-            this.showDataNotAvailableMessage(tabPane, "Race Control Messages grid could not be loaded.");
+            this.showDataNotAvailableMessage(tabPane, this.t('frontend.race_stats.no_grid_load'));
         }
     }
 
@@ -418,17 +419,17 @@ class RaceStatsModalPopulator {
         compoundCell1.textContent = compound;
         compoundCell1.setAttribute('rowspan', '3'); // Merge cells vertically
 
-        row1.insertCell().textContent = 'Longest Stint';
+        row1.insertCell().textContent = this.t('frontend.race_stats.longest_stint');
         row1.insertCell().textContent = longestTyreStintDriverName;
-        row1.insertCell().textContent = longestTyreStintLength + " laps";
+        row1.insertCell().textContent = this.t('frontend.race_stats.laps', { laps: longestTyreStintLength });
 
         const row2 = tyreStintRecordsTableBody.insertRow();
-        row2.insertCell().textContent = 'Least Tyre Wear Per Lap';
+        row2.insertCell().textContent = this.t('frontend.race_stats.least_tyre_wear');
         row2.insertCell().textContent = lowestTyreWearPerLapDriverName;
         row2.insertCell().textContent = formatFloat(lowestTyreWearPerLap) + "%";
 
         const row3 = tyreStintRecordsTableBody.insertRow();
-        row3.insertCell().textContent = 'Highest Tyre Wear';
+        row3.insertCell().textContent = this.t('frontend.race_stats.highest_tyre_wear');
         row3.insertCell().textContent = highestTyreWearDriverName;
         row3.insertCell().textContent = formatFloat(highestTyreWear) + "%";
     }

@@ -1,3 +1,5 @@
+const t = (k, p) => window.__i18n.tr(k, p);
+
 function getDefaultOverlayData() {
     return {
         "car-telemetry": {
@@ -41,7 +43,7 @@ function getDefaultOverlayData() {
                         "actual-tyre-compound": "C5",
                         "tyre-age-laps": 0,
                         "tyre-set-id": 6,
-                        "visual-tyre-compound": "Soft"
+                        "visual-tyre-compound": t('tyre.soft')
                     }
                 },
                 {
@@ -62,7 +64,7 @@ function getDefaultOverlayData() {
                         "actual-tyre-compound": "C5",
                         "tyre-age-laps": 1,
                         "tyre-set-id": 6,
-                        "visual-tyre-compound": "Soft"
+                        "visual-tyre-compound": t('tyre.soft')
                     }
                 },
                 {
@@ -83,7 +85,7 @@ function getDefaultOverlayData() {
                         "actual-tyre-compound": "C5",
                         "tyre-age-laps": 2,
                         "tyre-set-id": 6,
-                        "visual-tyre-compound": "Soft"
+                        "visual-tyre-compound": t('tyre.soft')
                     }
                 },
                 {
@@ -104,7 +106,7 @@ function getDefaultOverlayData() {
                         "actual-tyre-compound": "C5",
                         "tyre-age-laps": 3,
                         "tyre-set-id": 6,
-                        "visual-tyre-compound": "Soft"
+                        "visual-tyre-compound": t('tyre.soft')
                     }
                 },
                 {
@@ -125,7 +127,7 @@ function getDefaultOverlayData() {
                         "actual-tyre-compound": "C5",
                         "tyre-age-laps": 5,
                         "tyre-set-id": 6,
-                        "visual-tyre-compound": "Soft"
+                        "visual-tyre-compound": t('tyre.soft')
                     }
                 }
             ]
@@ -202,27 +204,27 @@ function getDefaultOverlayData() {
             {
                 "rain-probability": 18,
                 "time-offset": 0,
-                "weather": "Overcast"
+                "weather": t('weather.overcast')
             },
             {
                 "rain-probability": 18,
                 "time-offset": 5,
-                "weather": "Overcast"
+                "weather": t('weather.overcast')
             },
             {
                 "rain-probability": 18,
                 "time-offset": 10,
-                "weather": "Light Rain"
+                "weather": t('weather.light_rain')
             },
             {
                 "rain-probability": 18,
                 "time-offset": 15,
-                "weather": "Heavy Rain"
+                "weather": t('weather.heavy_rain')
             },
             {
                 "rain-probability": 18,
                 "time-offset": 30,
-                "weather": "Storm"
+                "weather": t('weather.storm')
             }
         ]
     };

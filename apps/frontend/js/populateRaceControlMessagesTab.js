@@ -1,5 +1,7 @@
 // populateRaceControlMessagesTab.js
 
+const t = (k, p) => window.__i18n.tr(k, p);
+
 // Add a small helper to create elements with attributes and children
 function createEl(tag, props = {}, ...children) {
   const el = document.createElement(tag);
@@ -35,16 +37,16 @@ function createFilterModal(allTypes, onChange) {
 
   const modal = createEl('div', { class: 'race-control-modal-overlay', style: { display: 'none' } },
     createEl('div', { id: 'raceControlMessageFilters', class: 'race-control-filters-checkboxes' },
-      createEl('h3', { style: { color: 'white' } }, 'Message Types'),
+      createEl('h3', { style: { color: 'white' } }, t('frontend.race_control.message_types')),
       createEl('div', { class: 'filter-button-container' },
         createEl('button', {
           class: 'race-control-action-button',
           onClick: () => { allTypes.forEach(t => modal.querySelector(`#filter-${t}`).checked = true); onChange(allTypes); }
-        }, 'Enable All'),
+        }, t('frontend.race_control.enable_all')),
         createEl('button', {
           class: 'race-control-action-button',
           onClick: () => { allTypes.forEach(t => modal.querySelector(`#filter-${t}`).checked = false); onChange([]); }
-        }, 'Disable All')
+        }, t('frontend.race_control.disable_all'))
       ),
       createEl('button', {
         class: 'race-control-modal-close-button',
@@ -77,7 +79,7 @@ function getDriverDetailsStr(driverInfo, brackets=false) {
         const team = getTeamName(driverInfo["team"]);
         return `${driverInfo["name"]} - ${team} #${driverInfo["driver-number"]}`; // Use 'driver-number'
     } else {
-        return "Unknown Driver";
+        return t("frontend.race_control.unknown_driver");
     }
 }
 
@@ -91,7 +93,7 @@ const detailRenderers = {
       `Driver: ${getDriverDetailsStr(d ?? null)}`,
   DRS_ENABLED: () => '---',
   DRS_DISABLED: ({ reason }) =>
-      `Reason: ${reason}`,
+      t("frontend.race_control.reason") + reason,
   CHEQUERED_FLAG: () => '---',
   RACE_WINNER: ({ 'driver-info': d }) =>
       getDriverDetailsStr(d ?? null),
@@ -100,14 +102,14 @@ const detailRenderers = {
     return od ? `${base}, other driver: ${getDriverDetailsStr(od, true)}` : base;
   },
   SPEED_TRAP_RECORD: ({ 'driver-info': d, speed }) =>
-      `Driver: ${getDriverDetailsStr(d ?? null)}, Speed: ${formatFloat(speed)} km/h`,
+      "Driver: " + getDriverDetailsStr(d ?? null) + t("frontend.race_control.speed") + formatFloat(speed) + t("frontend.race_control.kmh"),
   START_LIGHTS: ({ 'num-lights': numLights }) =>
-      `Number of lights: ${numLights}`,
+      t("frontend.race_control.num_lights") + numLights,
   LIGHTS_OUT: () => '---',
   DRIVE_THROUGH_SERVED: ({ 'driver-info': d }) =>
       `Driver: ${getDriverDetailsStr(d ?? null)}`,
   STOP_GO_SERVED: ({ 'driver-info': d, 'stop-time': stopTime }) =>
-      `Driver: ${getDriverDetailsStr(d ?? null)} - Stop Time: ${formatFloat(stopTime)} s`,
+      "Driver: " + getDriverDetailsStr(d ?? null) + " - " + t("frontend.race_control.stop_time_s") + formatFloat(stopTime) + t("frontend.race_control.s_suffix"),
   RED_FLAG: () => '---',
   OVERTAKE: ({ 'overtaker-info': overtaker, 'overtaken-info': overtaken }) =>
       `${getDriverDetailsStr(overtaker ?? null)} overtook ${getDriverDetailsStr(overtaken ?? null)}`,
@@ -119,11 +121,11 @@ const detailRenderers = {
       `Driver: ${getDriverDetailsStr(d ?? null)}, Lap: ${lap}`,
   CAR_DAMAGE: ({ 'damaged-part': part, 'old-value': oldValue, 'new-value': newValue, 'driver-info': d }) => {
     const partStr = {
-        'm_frontLeftWingDamage': 'Front Wing (Left)',
-        'm_frontRightWingDamage': 'Front Wing (Right)',
-        'm_rearWingDamage': 'Rear Wing',
-    }[part] ?? 'Unknown';
-    const base = `Part: ${partStr}, Old Value: ${oldValue}, New Value: ${newValue}`;
+        'm_frontLeftWingDamage': t('frontend.race_control.front_wing_left'),
+        'm_frontRightWingDamage': t('frontend.race_control.front_wing_right'),
+        'm_rearWingDamage': t('frontend.race_control.rear_wing'),
+    }[part] ?? t('frontend.race_control.unknown_part');
+    const base = t("frontend.race_control.part") + partStr + t("frontend.race_control.old_value") + oldValue + t("frontend.race_control.new_value") + newValue;
     return d ? `Driver: ${getDriverDetailsStr(d ?? null)} - ${base}` : base;
   },
   WING_CHANGE: ({ 'driver-info': d, 'lap-number': lap }) =>
@@ -136,7 +138,7 @@ const detailRenderers = {
     'lap-number': lap,
     'old-state': oldState,
     'new-state': newState}) => {
-    const stateLabel = (s) => (s ? "AI" : "Player");
+    const stateLabel = (s) => (s ? t("frontend.race_control.ai") : t("frontend.race_control.player"));
     return `Driver: ${getDriverDetailsStr(d ?? null)}, Lap: ${lap} - State changed from ${stateLabel(oldState)} to ${stateLabel(newState)}`;
   },
   FLASHBACK: () => '---',
@@ -183,12 +185,12 @@ function populateRaceControlMessagesTab(containerElement, initialRowData) {
 
     // Create the filter button
     const filterButton = document.createElement('button');
-    filterButton.textContent = 'Filters';
+    filterButton.textContent = t('frontend.race_control.filters');
     filterButton.classList.add('race-control-filter-button');
     // Create the search input for quick filter
     const searchInput = document.createElement('input');
     searchInput.type = 'text';
-    searchInput.placeholder = 'Search messages...';
+    searchInput.placeholder = t('frontend.race_control.search');
     searchInput.id = 'raceControlMessageSearchInput';
     searchInput.classList.add('race-control-search-input');
     containerElement.appendChild(filterButton);
@@ -226,11 +228,11 @@ function populateRaceControlMessagesTab(containerElement, initialRowData) {
 
     // Define column definitions for AG Grid
     const columnDefs = [
-        { headerName: 'ID', field: 'id', sortable: true, filter: false, width: 80 },
-        { headerName: 'Message Type', field: 'message-type', sortable: true, filter: false, width: 150 },
-        { headerName: 'Lap Number', field: 'lap-number', sortable: true, filter: false, width: 150 },
+        { headerName: t('frontend.race_control.id'), field: 'id', sortable: true, filter: false, width: 80 },
+        { headerName: t('frontend.race_control.message_type'), field: 'message-type', sortable: true, filter: false, width: 150 },
+        { headerName: t('frontend.race_control.lap_number'), field: 'lap-number', sortable: true, filter: false, width: 150 },
         {
-            headerName: 'Location',
+            headerName: t('frontend.race_control.location'),
             sortable: false,
             filter: false,
             width: 200,
@@ -239,7 +241,7 @@ function populateRaceControlMessagesTab(containerElement, initialRowData) {
             getQuickFilterText: params => params.value,
         },
         {
-            headerName: 'Details',
+            headerName: t('frontend.race_control.details'),
             field: 'details',
             flex: 1,
             cellRenderer: params => renderDetailsCell(params.data),

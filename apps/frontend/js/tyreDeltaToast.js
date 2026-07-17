@@ -1,3 +1,5 @@
+const t = (k, p) => window.__i18n.tr(k, p);
+
 class TyreDeltaToast {
     constructor(iconCache, timeout = 8000) {
         this.iconCache = iconCache;

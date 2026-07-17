@@ -34,6 +34,8 @@ from PySide6.QtNetwork import QNetworkAccessManager, QNetworkRequest, QNetworkRe
 from PySide6.QtWidgets import (QDialog, QHBoxLayout, QLabel, QPushButton,
                                QTextBrowser, QVBoxLayout)
 
+from lib.i18n import tr
+
 # -------------------------------------- CLASSES -----------------------------------------------------------------------
 
 class ImageLoadingTextBrowser(QTextBrowser):
@@ -138,7 +140,7 @@ class ChangelogWindow(QDialog):
 
     def setup_ui(self):
         """Setup the changelog window UI"""
-        self.setWindowTitle("What's New")
+        self.setWindowTitle(tr("launcher.changelog.title"))
         self.setMinimumSize(800, 600)
 
         # Apply dark theme
@@ -201,7 +203,7 @@ class ChangelogWindow(QDialog):
             icon_label.setFixedSize(32, 32)
             header_layout.addWidget(icon_label)
 
-        title_label = QLabel("New Updates Available")
+        title_label = QLabel(tr("launcher.changelog.new_updates"))
         title_label.setFont(QFont("Formula1", 14, QFont.Weight.Bold))
         header_layout.addWidget(title_label)
         header_layout.addStretch()
@@ -210,9 +212,9 @@ class ChangelogWindow(QDialog):
 
         # Info text
         if len(self.newer_versions) == 1:
-            info_text = "There is 1 new version available:"
+            info_text = tr("launcher.changelog.new_version_singular")
         else:
-            info_text = f"There are {len(self.newer_versions)} new versions available:"
+            info_text = tr("launcher.changelog.new_version_plural", count=len(self.newer_versions))
 
         info_label = QLabel(info_text)
         info_label.setFont(QFont("Roboto", 10))
@@ -234,7 +236,7 @@ class ChangelogWindow(QDialog):
         button_layout.addStretch()
 
         # Download button
-        download_btn = QPushButton("Download Updates")
+        download_btn = QPushButton(tr("launcher.changelog.download_updates"))
         download_btn.setMinimumWidth(140)
         if self.icons.get("download"):
             download_btn.setIcon(self.icons["download"])
@@ -242,7 +244,7 @@ class ChangelogWindow(QDialog):
         button_layout.addWidget(download_btn)
 
         # Close button
-        close_btn = QPushButton("Close")
+        close_btn = QPushButton(tr("common.close"))
         close_btn.setMinimumWidth(100)
         close_btn.clicked.connect(self.accept)
         button_layout.addWidget(close_btn)
@@ -256,9 +258,9 @@ class ChangelogWindow(QDialog):
         markdown_parts = []
 
         for version_info in self.newer_versions:
-            version_name = version_info.get("name", "Unknown Version")
+            version_name = version_info.get("name", tr("launcher.changelog.unknown_version"))
             published_at = version_info.get("published_at", "")
-            body = version_info.get("body", "No changelog available.")
+            body = version_info.get("body", tr("launcher.changelog.no_changelog"))
             release_url = version_info.get("html_url", "")
 
             # Format the header
@@ -278,7 +280,7 @@ class ChangelogWindow(QDialog):
 
             # Add release URL at the bottom
             if release_url:
-                markdown_parts.append(f"\n**Release URL:** [{release_url}]({release_url})")
+                markdown_parts.append(tr("launcher.changelog.release_url", url=release_url))
 
             markdown_parts.append("---")  # Horizontal rule separator
 

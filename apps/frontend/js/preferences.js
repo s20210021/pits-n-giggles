@@ -1,3 +1,5 @@
+const t = (k, p) => window.__i18n.tr(k, p);
+
 // Globals for preferences
 let g_pref_is24HourFormat;
 let g_pref_relativeDelta;
@@ -82,7 +84,7 @@ function loadPreferences() {
 
     g_pref_myTeamName = localStorage.getItem('myTeamName');
     if ((g_pref_myTeamName === null) || (g_pref_myTeamName === "")) {
-        g_pref_myTeamName = "My Team";
+        g_pref_myTeamName = t('frontend.settings.my_team_default');
         missingPreference = true;
     }
 
@@ -226,25 +228,31 @@ function savePreferences() {
 
 function updateAllTooltips() {
 
-    updateTooltip("best-lap-th", `Click to toggle between absolute and relative format. Current format is ${
-                                                    (g_pref_bestLapAbsoluteFormat) ? ("Absolute") : ("Relative")}`);
-    updateTooltip("last-lap-th", `Click to toggle between absolute and relative format. Current format is ${
-                                                    (g_pref_lastLapAbsoluteFormat) ? ("Absolute") : ("Relative")}`);
-    updateTooltip("delta-th", `Click to toggle between absolute and relative format. Current format is ${
-                                                    (!g_pref_relativeDelta) ? ("Absolute") : ("Relative")}`);
-    updateTooltip("tyre-info-th", `Click to toggle between average and max wear format. Current format is ${
-                                                    (g_pref_tyreWearAverageFormat) ? ("Average") : ("Tyre with max wear")}`);
-    updateTooltip("wear-prediction-th", `Click to toggle between average and max wear format. Current format is ${
-                                                    (g_pref_tyreWearAverageFormat) ? ("Average") : ("Tyre with max wear")}`);
+    updateTooltip("best-lap-th", t('frontend.preferences.toggle_format', {
+        format: g_pref_bestLapAbsoluteFormat ? t('frontend.preferences.absolute') : t('frontend.preferences.relative')
+    }));
+    updateTooltip("last-lap-th", t('frontend.preferences.toggle_format', {
+        format: g_pref_lastLapAbsoluteFormat ? t('frontend.preferences.absolute') : t('frontend.preferences.relative')
+    }));
+    updateTooltip("delta-th", t('frontend.preferences.toggle_format', {
+        format: !g_pref_relativeDelta ? t('frontend.preferences.absolute') : t('frontend.preferences.relative')
+    }));
+    updateTooltip("tyre-info-th", t('frontend.preferences.toggle_wear_format', {
+        format: g_pref_tyreWearAverageFormat ? t('frontend.preferences.average') : t('frontend.preferences.max_wear')
+    }));
+    updateTooltip("wear-prediction-th", t('frontend.preferences.toggle_wear_format', {
+        format: g_pref_tyreWearAverageFormat ? t('frontend.preferences.average') : t('frontend.preferences.max_wear')
+    }));
     if (g_pref_showFuelTarget) {
-        updateTooltip("fuel-info-th", `Click to toggle between target fuel format. Current format is ${
-            (g_pref_fuelTargetAverageFormat) ? ("Average target fuel rate") :
-            ("Fuel usage target for next lap")}`);
+        updateTooltip("fuel-info-th", t('frontend.preferences.toggle_fuel_format', {
+            format: g_pref_fuelTargetAverageFormat ? t('frontend.preferences.average_target') : t('frontend.preferences.next_lap_target')
+        }));
     } else {
-        updateTooltip("fuel-info-th", `Target fuel rate is disabled. Enable it via the settings`);
+        updateTooltip("fuel-info-th", t('frontend.preferences.fuel_target_disabled'));
     }
-    updateTooltip("tt-vmax-th", `Top Speed. Click to toggle between km/h and mph. Current format is ${
-                                                    (g_pref_speedUnitMetric) ? ("km/h") : ("mph")}`);
+    updateTooltip("tt-vmax-th", t('frontend.preferences.toggle_speed_format', {
+        format: g_pref_speedUnitMetric ? t('frontend.preferences.kmh') : t('frontend.preferences.mph')
+    }));
 }
 
 function updateTooltip(id, newText) {

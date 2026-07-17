@@ -1,3 +1,5 @@
+const t = (k, p) => window.__i18n.tr(k, p);
+
 class BarChart {
     constructor(container) {
         // Validate container input

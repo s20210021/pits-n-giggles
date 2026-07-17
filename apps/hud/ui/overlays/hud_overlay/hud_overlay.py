@@ -33,6 +33,7 @@ from apps.hud.ui.overlays.base import BaseOverlay
 from lib.config import (OverlayId, OverlayPosition, OverlaysFuelEstimationMode,
                         OverlaysSpeedUnit)
 from lib.f1_types.packet_7_car_status_data import CarStatusData
+from lib.i18n import tr
 
 # -------------------------------------- CLASSES -----------------------------------------------------------------------
 
@@ -102,20 +103,20 @@ class HudOverlay(BaseOverlay):
         self.set_qml_property("gear",         data.gear)
         if self._speed_unit == OverlaysSpeedUnit.MPH:
             self.set_qml_property("speedKmph",    data.speed_mph)
-            self.set_qml_property("speedUnitLabel", "mph")
+            self.set_qml_property("speedUnitLabel", tr("hud.overlay.mph"))
         else:
             self.set_qml_property("speedKmph",    data.speed_kmph)
-            self.set_qml_property("speedUnitLabel", "km/h")
+            self.set_qml_property("speedUnitLabel", tr("hud.overlay.kmh"))
 
         # DRS / active aero + overtake (2026)
         f26 = data.f1_26_data
         if f26.enabled:
             if f26.active_aero_mode == "STRAIGHT_MODE":
-                drs_text    = "STRAIGHT"
+                drs_text    = tr("active_aero.straight")
                 drs_enabled = True
                 drs_dist    = 0
             else:
-                drs_text    = "CORNER"
+                drs_text    = tr("active_aero.corner")
                 drs_enabled = False
                 drs_dist    = min(f26.active_aero_dist, 250)
             drs_avlb    = f26.active_aero_avlb

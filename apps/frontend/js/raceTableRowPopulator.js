@@ -1,3 +1,5 @@
+const t = (k, p) => window.__i18n.tr(k, p);
+
 class RaceTableRowPopulator {
     constructor(row, rowData, packetFormat, isLiveDataMode, iconCache, raceEnded, spectatorIndex, sessionType, context, columnConfig) {
         this.row = row;
@@ -95,7 +97,7 @@ class RaceTableRowPopulator {
         // If 2026 Overtake is not active, ERS mode should be BOOST
         if (regs2026Info && regs2026Info["2026-regs-enabled"] &&
             (ersMode === "OVERTAKE") && !regs2026Info["overtake-active"]) {
-            ersMode = "BOOST";
+            ersMode = t("ers.boost");
         }
 
         const cell = this.createMultiLineCell([
@@ -111,8 +113,8 @@ class RaceTableRowPopulator {
         const dtPlusSg = warnsPensInfo["num-dt"] + "DT + " +
             warnsPensInfo["num-sg"] + "Serv";
         this.createMultiLineCell([
-            `Pens: ${warnsPensInfo["time-penalties"]} sec`,
-            `Warns: ${warnsPensInfo["corner-cutting-warnings"]}`,
+            t("frontend.engview.sub_time") + ": " + warnsPensInfo["time-penalties"] + "s",
+            t("frontend.engview.track_warnings") + ": " + warnsPensInfo["corner-cutting-warnings"],
             dtPlusSg,
         ]);
 

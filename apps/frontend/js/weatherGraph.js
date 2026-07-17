@@ -1,6 +1,8 @@
 // Weather forecast graph using Chart.js — mirrors the MFD weather graph.
 // Shows rain probability, track temperature, and air temperature over time.
 
+const t = (k, p) => window.__i18n.tr(k, p);
+
 class WeatherGraph {
     constructor(container) {
         if (!container || !(container instanceof HTMLElement)) {
@@ -48,7 +50,7 @@ class WeatherGraph {
                 labels: labels,
                 datasets: [
                     {
-                        label: 'Rain %',
+                        label: t('weather.rain_pct'),
                         data: rainData,
                         borderColor: '#7dafff',
                         backgroundColor: 'rgba(125, 175, 255, 0.15)',
@@ -59,7 +61,7 @@ class WeatherGraph {
                         pointBackgroundColor: '#7dafff',
                     },
                     {
-                        label: 'Track Temp (°C)',
+                        label: t('weather.track_temp'),
                         data: trackTempData,
                         borderColor: '#ff6666',
                         backgroundColor: 'transparent',
@@ -69,7 +71,7 @@ class WeatherGraph {
                         pointBackgroundColor: '#ff6666',
                     },
                     {
-                        label: 'Air Temp (°C)',
+                        label: t('weather.air_temp'),
                         data: airTempData,
                         borderColor: '#66ff66',
                         backgroundColor: 'transparent',

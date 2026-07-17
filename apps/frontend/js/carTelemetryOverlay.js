@@ -1,3 +1,5 @@
+const t = (k, p) => window.__i18n.tr(k, p);
+
 class CarTelemetryWidget {
     constructor() {
         this.initializeElements();
@@ -28,7 +30,7 @@ class CarTelemetryWidget {
                 labels: Array(maxDataPoints).fill(''),
                 datasets: [
                     {
-                        label: 'Throttle',
+                        label: t('frontend.car_telemetry.throttle'),
                         data: this.graphData.throttle,
                         borderColor: '#00ff00',
                         borderWidth: 2,
@@ -37,7 +39,7 @@ class CarTelemetryWidget {
                         pointRadius: 0
                     },
                     {
-                        label: 'Brake',
+                        label: t('frontend.car_telemetry.brake'),
                         data: this.graphData.brake,
                         borderColor: '#ff0000',
                         borderWidth: 2,
@@ -46,7 +48,7 @@ class CarTelemetryWidget {
                         pointRadius: 0
                     },
                     {
-                        label: 'Steering',
+                        label: t('frontend.car_telemetry.steering'),
                         data: this.graphData.steering,
                         borderColor: '#ffff00',
                         borderWidth: 2,

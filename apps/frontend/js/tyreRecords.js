@@ -1,3 +1,5 @@
+const t = (k, p) => window.__i18n.tr(k, p);
+
 class F1TyreRecords {
   constructor(container, iconCache) {
     this.container = container;

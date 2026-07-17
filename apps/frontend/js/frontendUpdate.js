@@ -1,3 +1,5 @@
+const t = (k, p) => window.__i18n.tr(k, p);
+
 function textToSpeech(text, volume=g_pref_ttsVolume) {
     // Create a new SpeechSynthesisUtterance object with the provided text
     const speech = new SpeechSynthesisUtterance(text);

@@ -1,3 +1,5 @@
+const t = (k, p) => window.__i18n.tr(k, p);
+
 /**
  * TrackMap — renders driver positions on an SVG + Canvas hybrid track map.
  *
@@ -208,7 +210,7 @@ class TrackMap {
 
         const tfKey = CIRCUIT_TO_TRANSFORM[circuitName] ?? null;
         if (!tfKey || !this._transforms || !this._transforms[tfKey]) {
-            this._showFallback('No track map available');
+            this._showFallback(t('frontend.track_map.no_map'));
             return;
         }
 
@@ -568,7 +570,7 @@ class TrackMap {
         this.tooltip.appendChild(document.createElement('br'));
         this.tooltip.appendChild(document.createTextNode('ERS: ' + ers + '% (' + ersMode + ')'));
         this.tooltip.appendChild(document.createElement('br'));
-        this.tooltip.appendChild(document.createTextNode('Tyre Wear: ' + wear + '%'));
+        this.tooltip.appendChild(document.createTextNode(t('frontend.track_map.tyre_wear') + wear + '%'));
         this.tooltip.style.display = 'block';
         this._activeTooltipDot = data.index;
     }
@@ -714,7 +716,7 @@ class TrackMap {
         this._resetBtn = document.createElement('button');
         this._resetBtn.className = 'track-map-zoom-reset';
         this._resetBtn.textContent = '\u21ba';
-        this._resetBtn.title = 'Reset zoom';
+        this._resetBtn.title = t('frontend.track_map.reset_zoom');
         this._resetBtn.style.display = 'none';
         this._resetBtn.addEventListener('click', (e) => {
             e.stopPropagation();

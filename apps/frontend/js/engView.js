@@ -1,3 +1,4 @@
+const t = (k, p) => window.__i18n.tr(k, p);
 let g_engView_predLapNum = null;
 
 // Tyre surface temperature thresholds per compound (°C).
@@ -84,12 +85,12 @@ class CustomHeader {
         if (!state.isFrozen) {
             this.pinBtn.style.display = '';
             this.pinBtn.innerHTML = '<i class="bi bi-lock"></i>';
-            this.pinBtn.title = 'Freeze columns up to here';
+            this.pinBtn.title = t('frontend.engview.freeze_columns');
             this.pinBtn.classList.remove('active');
         } else if (state.boundaryId === this.colId) {
             this.pinBtn.style.display = '';
             this.pinBtn.innerHTML = '<i class="bi bi-lock-fill"></i>';
-            this.pinBtn.title = 'Unfreeze columns';
+            this.pinBtn.title = t('frontend.engview.unfreeze_columns');
             this.pinBtn.classList.add('active');
         } else {
             this.pinBtn.style.display = 'none';
@@ -143,12 +144,12 @@ class CustomGroupHeader {
         if (!state.isFrozen) {
             this.pinBtn.style.display = '';
             this.pinBtn.innerHTML = '<i class="bi bi-lock"></i>';
-            this.pinBtn.title = 'Freeze columns up to here';
+            this.pinBtn.title = t('frontend.engview.freeze_columns');
             this.pinBtn.classList.remove('active');
         } else if (state.boundaryId === this.groupId) {
             this.pinBtn.style.display = '';
             this.pinBtn.innerHTML = '<i class="bi bi-lock-fill"></i>';
-            this.pinBtn.title = 'Unfreeze columns';
+            this.pinBtn.title = t('frontend.engview.unfreeze_columns');
             this.pinBtn.classList.add('active');
         } else {
             this.pinBtn.style.display = 'none';
@@ -236,7 +237,7 @@ class EngViewRaceTable {
         if (this.isBuiltinProfile(activeProfile)) {
             // Fork: detach from the builtin into a new uniquely-named custom profile
             const existingNames = new Set(Object.values(this.loadProfiles()).map(p => p.name));
-            let name = 'Custom';
+            let name = t('frontend.engview.custom');
             for (let i = 1; existingNames.has(name); i++) name = `Custom ${i}`;
             const id = this.createProfile(name);
             if (!id) return null;
@@ -374,7 +375,7 @@ class EngViewRaceTable {
         const activeId = this.getActiveProfileId();
         select.innerHTML = '';
 
-        for (const [id, label] of [[this.FULL_PRESET_ID, 'Full'], [this.MINIMAL_PRESET_ID, 'Minimal']]) {
+        for (const [id, label] of [[this.FULL_PRESET_ID, t('frontend.engview.full')], [this.MINIMAL_PRESET_ID, t('frontend.engview.minimal')]]) {
             const opt = document.createElement('option');
             opt.value = id;
             opt.textContent = label;
@@ -814,10 +815,10 @@ class EngViewRaceTable {
 
     createMaxTyreWearCellRenderer() {
         const WEAR_KEYS = [
-            { key: 'FL', field: 'front-left-wear' },
-            { key: 'FR', field: 'front-right-wear' },
-            { key: 'RL', field: 'rear-left-wear' },
-            { key: 'RR', field: 'rear-right-wear' },
+            { key: t('frontend.engview.sub_fl'), field: 'front-left-wear' },
+            { key: t('frontend.engview.sub_fr'), field: 'front-right-wear' },
+            { key: t('frontend.engview.sub_rl'), field: 'rear-left-wear' },
+            { key: t('frontend.engview.sub_rr'), field: 'rear-right-wear' },
         ];
         return (params) => {
             const driverInfo = params.data;
@@ -935,9 +936,9 @@ class EngViewRaceTable {
     getColumnDefinitions() {
         return [
             {
-                headerName: "Pos",
+                headerName: t("frontend.engview.column_pos"),
                 colId: "position",
-                context: {displayName: "Position", },
+                context: {displayName: t("frontend.engview.display_pos"), },
                 field: "driver-info",
                 flex: 4,
                 sortable: true,
@@ -946,18 +947,18 @@ class EngViewRaceTable {
                 cellClass: 'ag-cell-multiline',
             },
             {
-                headerName: "F1 2026",
+                headerName: t("frontend.engview.column_f1_2026"),
                 colId: "f1-2026",
-                context: {displayName: "F1 2026", },
+                context: {displayName: t("frontend.engview.column_f1_2026"), },
                 field: "2026-regs-info",
                 flex: 4,
                 cellRenderer: this.createF1_2026CellRenderer(),
                 cellClass: 'ag-cell-multiline',
             },
             {
-                headerName: "Name",
+                headerName: t("frontend.engview.column_name"),
                 colId: "name",
-                context: {displayName: "Driver Name", },
+                context: {displayName: t("frontend.engview.display_driver_name"), },
                 field: "name",
                 flex: 12,
                 cellRenderer: (params) => {
@@ -978,9 +979,9 @@ class EngViewRaceTable {
                 cellClass: 'ag-cell-multiline',
             },
             {
-                headerName: "Delta",
+                headerName: t("frontend.engview.column_delta"),
                 colId: "delta",
-                context: {displayName: "Delta", },
+                context: {displayName: t("frontend.engview.column_delta"), },
                 field: "delta-info",
                 flex: 8,
                 cellRenderer: (params) => {
@@ -1004,49 +1005,49 @@ class EngViewRaceTable {
                 cellClass: 'ag-cell-multiline',
             },
             {
-                headerName: 'Penalties',
+                headerName: t('frontend.engview.column_penalties'),
                 colId: 'penalties',
-                context: {displayName: 'Penalties', },
+                context: {displayName: t('frontend.engview.column_penalties'), },
                 children: [
                     {
-                        headerName: "Track",
+                        headerName: t("frontend.engview.sub_track"),
                         colId: "track-warnings",
-                        context: {displayName: "Track Warnings", },
+                        context: {displayName: t("frontend.engview.track_warnings"), },
                         cellRenderer: this.createPenaltyCellRenderer("corner-cutting-warnings"),
                         field: "warns-pens-info.corner-cutting-warnings", flex: 1.5, sortable: false, cellClass: 'ag-cell-single-line',
                     },
                     {
-                        headerName: 'Time',
+                        headerName: t('frontend.engview.sub_time'),
                         colId: 'time-penalties',
-                        context: {displayName: "Time Penalties", },
+                        context: {displayName: t("frontend.engview.time_penalties_sub"), },
                         cellRenderer: this.createPenaltyCellRenderer("time-penalties"),
                         field: 'warns-pens-info.time-penalties', flex: 1.5, sortable: false, cellClass: 'ag-cell-single-line'
                     },
                     {
-                        headerName: 'DT',
+                        headerName: t('frontend.engview.sub_dt'),
                         colId: 'drive-through',
-                        context: {displayName: "Drive Through", },
+                        context: {displayName: t("frontend.engview.drive_through"), },
                         field: 'warns-pens-info.num-dt', flex: 1.5, sortable: false, cellClass: 'ag-cell-single-line',
                         cellRenderer: this.createPenaltyCellRenderer("num-dt"),
                     },
                     {
-                        headerName: 'Serv',
+                        headerName: t('frontend.engview.sub_serv'),
                         colId: 'stop-go',
-                        context: {displayName: "Servable Penalties", },
+                        context: {displayName: t("frontend.engview.servable_penalties"), },
                         field: 'warns-pens-info.num-sg', flex: 1.5, sortable: false, cellClass: 'ag-cell-single-line',
                         cellRenderer: this.createPenaltyCellRenderer("num-sg"),
                     },
                 ],
             },
             {
-                headerName: 'Best Lap',
+                headerName: t('frontend.engview.column_best_lap'),
                 colId: 'best-lap',
-                context: {displayName: 'Best Lap', },
+                context: {displayName: t('frontend.engview.column_best_lap'), },
                 children: [
                     {
                         headerName: "Lap",
                         colId: "best-lap-time",
-                        context: {displayName: "Best Lap Time", },
+                        context: {displayName: t("frontend.engview.display_best_lap_time"), },
                         field: `lap-info`,
                         cellRenderer: this.createSectorCellRenderer('lap', 'lap-time-ms', 'lap-time-ms-player', false),
                         sortable: false,
@@ -1061,7 +1062,7 @@ class EngViewRaceTable {
                     {
                         headerName: "S1",
                         colId: "best-sector-1",
-                        context: {displayName: "Best Sector 1", },
+                        context: {displayName: t("frontend.engview.display_best_s1"), },
                         field: `lap-info`,
                         cellRenderer: this.createSectorCellRenderer('s1', 's1-time-ms', 's1-time-ms-player', false),
                         sortable: false,
@@ -1076,7 +1077,7 @@ class EngViewRaceTable {
                     {
                         headerName: "S2",
                         colId: "best-sector-2",
-                        context: {displayName: "Best Sector 2", },
+                        context: {displayName: t("frontend.engview.display_best_s2"), },
                         field: `lap-info`,
                         cellRenderer: this.createSectorCellRenderer('s2', 's2-time-ms', 's2-time-ms-player', false),
                         sortable: false,
@@ -1091,7 +1092,7 @@ class EngViewRaceTable {
                     {
                         headerName: "S3",
                         colId: "best-sector-3",
-                        context: {displayName: "Best Sector 3", },
+                        context: {displayName: t("frontend.engview.display_best_s3"), },
                         field: `lap-info`,
                         cellRenderer: this.createSectorCellRenderer('s3', 's3-time-ms', 's3-time-ms-player', false),
                         sortable: false,
@@ -1106,14 +1107,14 @@ class EngViewRaceTable {
                 ]
             },
             {
-                headerName: 'Last Lap',
+                headerName: t('frontend.engview.column_last_lap'),
                 colId: 'last-lap',
-                context: {displayName: 'Last Lap', },
+                context: {displayName: t('frontend.engview.column_last_lap'), },
                 children: [
                     {
                         headerName: "Lap",
                         colId: "last-lap-time",
-                        context: {displayName: "Last Lap Time", },
+                        context: {displayName: t("frontend.engview.display_last_lap_time"), },
                         field: `lap-info`,
                         cellRenderer: this.createSectorCellRenderer('lap', 'lap-time-ms', 'lap-time-ms-player', true),
                         sortable: false,
@@ -1128,7 +1129,7 @@ class EngViewRaceTable {
                     {
                         headerName: "S1",
                         colId: "last-sector-1",
-                        context: {displayName: "Last Sector 1", },
+                        context: {displayName: t("frontend.engview.display_last_s1"), },
                         field: `lap-info`,
                         cellRenderer: this.createSectorCellRenderer('s1', 's1-time-ms', 's1-time-ms-player', true),
                         sortable: false,
@@ -1143,7 +1144,7 @@ class EngViewRaceTable {
                     {
                         headerName: "S2",
                         colId: "last-sector-2",
-                        context: {displayName: "Last Sector 2",},
+                        context: {displayName: t("frontend.engview.display_last_s2"),},
                         field: `lap-info`,
                         cellRenderer: this.createSectorCellRenderer('s2', 's2-time-ms', 's2-time-ms-player', true),
                         sortable: false,
@@ -1158,7 +1159,7 @@ class EngViewRaceTable {
                     {
                         headerName: "S3",
                         colId: "last-sector-3",
-                        context: {displayName: "Last Sector 3", },
+                        context: {displayName: t("frontend.engview.display_last_s3"), },
                         field: `lap-info`,
                         cellRenderer: this.createSectorCellRenderer('s3', 's3-time-ms', 's3-time-ms-player', true),
                         sortable: false,
@@ -1173,14 +1174,14 @@ class EngViewRaceTable {
                 ]
             },
             {
-                headerName: 'Current Lap',
+                headerName: t('frontend.engview.column_current_lap'),
                 colId: 'curr-lap',
-                context: {displayName: 'Curr Lap', },
+                context: {displayName: t('frontend.engview.display_curr_lap'), },
                 children: [
                     {
                         headerName: "Lap",
                         colId: "curr-lap-time",
-                        context: {displayName: "Current Lap Time", },
+                        context: {displayName: t("frontend.engview.display_curr_lap_time"), },
                         field: `lap-info`,
                         cellRenderer: this.createSectorCellRendererCurrLap('lap', 'lap-time-ms'),
                         sortable: false,
@@ -1191,7 +1192,7 @@ class EngViewRaceTable {
                     {
                         headerName: "S1",
                         colId: "curr-sector-1",
-                        context: {displayName: "Current Sector 1", },
+                        context: {displayName: t("frontend.engview.display_curr_s1"), },
                         field: `lap-info`,
                         cellRenderer: this.createSectorCellRendererCurrLap('s1', 's1-time-ms'),
                         sortable: false,
@@ -1202,7 +1203,7 @@ class EngViewRaceTable {
                     {
                         headerName: "S2",
                         colId: "curr-sector-2",
-                        context: {displayName: "Current Sector 2", },
+                        context: {displayName: t("frontend.engview.display_curr_s2"), },
                         field: `lap-info`,
                         cellRenderer: this.createSectorCellRendererCurrLap('s2', 's2-time-ms'),
                         sortable: false,
@@ -1213,7 +1214,7 @@ class EngViewRaceTable {
                     {
                         headerName: "S3",
                         colId: "curr-sector-3",
-                        context: {displayName: "Current Sector 3", },
+                        context: {displayName: t("frontend.engview.display_curr_s3"), },
                         field: `lap-info`,
                         cellRenderer: this.createSectorCellRendererCurrLap('s3', 's3-time-ms'),
                         sortable: false,
@@ -1224,7 +1225,7 @@ class EngViewRaceTable {
                     {
                         headerName: "Status",
                         colId: "curr-lap-status",
-                        context: {displayName: "Driver Status", },
+                        context: {displayName: t("frontend.engview.display_driver_status"), },
                         field: `lap-info`,
                         cellRenderer: this.createStatusCellRendererCurrLap(),
                         sortable: false,
@@ -1232,9 +1233,9 @@ class EngViewRaceTable {
                         cellClass: 'ag-cell-single-line',
                     },
                     {
-                        headerName: "Delta",
+                        headerName: t("frontend.engview.column_delta"),
                         colId: "curr-lap-delta",
-                        context: {displayName: "Delta", },
+                        context: {displayName: t("frontend.engview.column_delta"), },
                         field: `lap-info`,
                         cellRenderer: this.createDeltaCellRendererCurrLap(),
                         sortable: false,
@@ -1245,9 +1246,9 @@ class EngViewRaceTable {
                 ]
             },
             {
-                headerName: 'Speed Trap',
+                headerName: t('frontend.engview.column_speed_trap'),
                 colId: 'speed-trap',
-                context: {displayName: 'Speed Trap', },
+                context: {displayName: t('frontend.engview.column_speed_trap'), },
                 field: "lap-info.speed-trap-record-kmph",
                 flex: 8,
                 cellRenderer: (params) =>  {
@@ -1264,14 +1265,14 @@ class EngViewRaceTable {
                 cellClass: 'ag-cell-single-line',
             },
             {
-                headerName: 'Tyre Wear',
+                headerName: t('frontend.engview.column_tyre_wear'),
                 colId: 'tyre-wear',
-                context: {displayName: 'Tyre Wear', },
+                context: {displayName: t('frontend.engview.column_tyre_wear'), },
                 children: [
                     {
                         headerName: "Comp",
                         colId: "tyre-compound",
-                        context: {displayName: "Tyre Compound", },
+                        context: {displayName: t("frontend.engview.display_tyre_compound"), },
                         field: "tyre-info.visual-tyre-compound",
                         flex: 4,
                         valueGetter: (params) => {
@@ -1297,7 +1298,7 @@ class EngViewRaceTable {
                     {
                         headerName: "Rejoin",
                         colId: "pit-rejoin-position",
-                        context: {displayName: "Pit Rejoin Position", },
+                        context: {displayName: t("frontend.engview.display_pit_rejoin"), },
                         field: "tyre-info.pit-rejoin-position",
                         flex: 4,
                         cellRenderer: (params) => {
@@ -1314,7 +1315,7 @@ class EngViewRaceTable {
                     {
                         headerName: "Lap",
                         colId: "tyre-age",
-                        context: {displayName: "Tyre Age / Pred. Lap", },
+                        context: {displayName: t("frontend.engview.display_tyre_age"), },
                         field: "tyre-info.tyre-age",
                         flex: 4,
                         cellRenderer: (params) => {
@@ -1330,7 +1331,7 @@ class EngViewRaceTable {
                     {
                         headerName: "FL",
                         colId: "front-left-wear",
-                        context: {displayName: "Front Left Wear", },
+                        context: {displayName: t("frontend.engview.display_wear_fl"), },
                         field: "tyre-info.current-wear.front-left-wear",
                         flex: 2,
                         cellRenderer: this.createTyreWearCellRenderer("front-left-wear"),
@@ -1340,7 +1341,7 @@ class EngViewRaceTable {
                     {
                         headerName: "FR",
                         colId: "front-right-wear",
-                        context: {displayName: "Front Right Wear", },
+                        context: {displayName: t("frontend.engview.display_wear_fr"), },
                         field: "tyre-info.current-wear.front-right-wear",
                         flex: 2,
                         cellRenderer: this.createTyreWearCellRenderer("front-right-wear"),
@@ -1350,7 +1351,7 @@ class EngViewRaceTable {
                     {
                         headerName: "RL",
                         colId: "rear-left-wear",
-                        context: {displayName: "Rear Left Wear", },
+                        context: {displayName: t("frontend.engview.display_wear_rl"), },
                         field: "tyre-info.current-wear.rear-left-wear",
                         flex: 2,
                         cellRenderer: this.createTyreWearCellRenderer("rear-left-wear"),
@@ -1360,7 +1361,7 @@ class EngViewRaceTable {
                     {
                         headerName: "RR",
                         colId: "rear-right-wear",
-                        context: {displayName: "Rear Right Wear", },
+                        context: {displayName: t("frontend.engview.display_wear_rr"), },
                         field: "tyre-info.current-wear.rear-right-wear",
                         flex: 2,
                         cellRenderer: this.createTyreWearCellRenderer("rear-right-wear"),
@@ -1370,7 +1371,7 @@ class EngViewRaceTable {
                     {
                         headerName: "Max",
                         colId: "tyre-wear-agg",
-                        context: { displayName: "Tyre Wear (Max)" },
+                        context: { displayName: t("frontend.engview.display_wear_max") },
                         field: "tyre-info",
                         flex: 3,
                         hide: true,
@@ -1391,7 +1392,7 @@ class EngViewRaceTable {
                     {
                         headerName: "Avg",
                         colId: "tyre-wear-avg",
-                        context: { displayName: "Tyre Wear (Avg)" },
+                        context: { displayName: t("frontend.engview.display_wear_avg") },
                         field: "tyre-info",
                         flex: 3,
                         hide: true,
@@ -1412,93 +1413,93 @@ class EngViewRaceTable {
                 ],
             },
             {
-                headerName: 'Surf T',
+                headerName: t('frontend.engview.column_surf_temp'),
                 colId: 'tyre-surf-temps',
-                context: {displayName: 'Tyre Surface Temps'},
+                context: {displayName: t('frontend.engview.display_surf_temps')},
                 children: [
                     {
-                        headerName: "FL", colId: "tyre-surf-fl", context: {displayName: "Surface Temp FL"},
+                        headerName: "FL", colId: "tyre-surf-fl", context: {displayName: t("frontend.engview.display_surf_fl")},
                         field: "tyre-info.surface-temps.fl", flex: 2, sortable: false, cellClass: 'ag-cell-single-line',
                         cellRenderer: this.createTempCellRenderer("surface-temps", "fl"),
                     },
                     {
-                        headerName: "FR", colId: "tyre-surf-fr", context: {displayName: "Surface Temp FR"},
+                        headerName: "FR", colId: "tyre-surf-fr", context: {displayName: t("frontend.engview.display_surf_fr")},
                         field: "tyre-info.surface-temps.fr", flex: 2, sortable: false, cellClass: 'ag-cell-single-line',
                         cellRenderer: this.createTempCellRenderer("surface-temps", "fr"),
                     },
                     {
-                        headerName: "RL", colId: "tyre-surf-rl", context: {displayName: "Surface Temp RL"},
+                        headerName: "RL", colId: "tyre-surf-rl", context: {displayName: t("frontend.engview.display_surf_rl")},
                         field: "tyre-info.surface-temps.rl", flex: 2, sortable: false, cellClass: 'ag-cell-single-line',
                         cellRenderer: this.createTempCellRenderer("surface-temps", "rl"),
                     },
                     {
-                        headerName: "RR", colId: "tyre-surf-rr", context: {displayName: "Surface Temp RR"},
+                        headerName: "RR", colId: "tyre-surf-rr", context: {displayName: t("frontend.engview.display_surf_rr")},
                         field: "tyre-info.surface-temps.rr", flex: 2, sortable: false, cellClass: 'ag-cell-single-line',
                         cellRenderer: this.createTempCellRenderer("surface-temps", "rr"),
                     },
                 ],
             },
             {
-                headerName: 'Inner T',
+                headerName: t('frontend.engview.column_inner_temp'),
                 colId: 'tyre-inner-temps',
-                context: {displayName: 'Tyre Inner Temps'},
+                context: {displayName: t('frontend.engview.display_inner_temps')},
                 children: [
                     {
-                        headerName: "FL", colId: "tyre-inner-fl", context: {displayName: "Inner Temp FL"},
+                        headerName: "FL", colId: "tyre-inner-fl", context: {displayName: t("frontend.engview.display_inner_fl")},
                         field: "tyre-info.inner-temps.fl", flex: 2, sortable: false, cellClass: 'ag-cell-single-line',
                         cellRenderer: this.createTempCellRenderer("inner-temps", "fl"),
                     },
                     {
-                        headerName: "FR", colId: "tyre-inner-fr", context: {displayName: "Inner Temp FR"},
+                        headerName: "FR", colId: "tyre-inner-fr", context: {displayName: t("frontend.engview.display_inner_fr")},
                         field: "tyre-info.inner-temps.fr", flex: 2, sortable: false, cellClass: 'ag-cell-single-line',
                         cellRenderer: this.createTempCellRenderer("inner-temps", "fr"),
                     },
                     {
-                        headerName: "RL", colId: "tyre-inner-rl", context: {displayName: "Inner Temp RL"},
+                        headerName: "RL", colId: "tyre-inner-rl", context: {displayName: t("frontend.engview.display_inner_rl")},
                         field: "tyre-info.inner-temps.rl", flex: 2, sortable: false, cellClass: 'ag-cell-single-line',
                         cellRenderer: this.createTempCellRenderer("inner-temps", "rl"),
                     },
                     {
-                        headerName: "RR", colId: "tyre-inner-rr", context: {displayName: "Inner Temp RR"},
+                        headerName: "RR", colId: "tyre-inner-rr", context: {displayName: t("frontend.engview.display_inner_rr")},
                         field: "tyre-info.inner-temps.rr", flex: 2, sortable: false, cellClass: 'ag-cell-single-line',
                         cellRenderer: this.createTempCellRenderer("inner-temps", "rr"),
                     },
                 ],
             },
             {
-                headerName: 'Brake T',
+                headerName: t('frontend.engview.column_brake_temp'),
                 colId: 'brake-temps',
-                context: {displayName: 'Brake Temps'},
+                context: {displayName: t('frontend.engview.display_brake_temps')},
                 children: [
                     {
-                        headerName: "FL", colId: "brake-fl", context: {displayName: "Brake Temp FL"},
+                        headerName: "FL", colId: "brake-fl", context: {displayName: t("frontend.engview.display_brake_fl")},
                         field: "tyre-info.brakes-temps.fl", flex: 2, sortable: false, cellClass: 'ag-cell-single-line',
                         cellRenderer: this.createTempCellRenderer("brakes-temps", "fl"),
                     },
                     {
-                        headerName: "FR", colId: "brake-fr", context: {displayName: "Brake Temp FR"},
+                        headerName: "FR", colId: "brake-fr", context: {displayName: t("frontend.engview.display_brake_fr")},
                         field: "tyre-info.brakes-temps.fr", flex: 2, sortable: false, cellClass: 'ag-cell-single-line',
                         cellRenderer: this.createTempCellRenderer("brakes-temps", "fr"),
                     },
                     {
-                        headerName: "RL", colId: "brake-rl", context: {displayName: "Brake Temp RL"},
+                        headerName: "RL", colId: "brake-rl", context: {displayName: t("frontend.engview.display_brake_rl")},
                         field: "tyre-info.brakes-temps.rl", flex: 2, sortable: false, cellClass: 'ag-cell-single-line',
                         cellRenderer: this.createTempCellRenderer("brakes-temps", "rl"),
                     },
                     {
-                        headerName: "RR", colId: "brake-rr", context: {displayName: "Brake Temp RR"},
+                        headerName: "RR", colId: "brake-rr", context: {displayName: t("frontend.engview.display_brake_rr")},
                         field: "tyre-info.brakes-temps.rr", flex: 2, sortable: false, cellClass: 'ag-cell-single-line',
                         cellRenderer: this.createTempCellRenderer("brakes-temps", "rr"),
                     },
                 ],
             },
             {
-                headerName: 'ERS',
+                headerName: t('frontend.engview.column_ers'),
                 colId: 'ers',
-                context: {displayName: 'ERS', },
+                context: {displayName: t('frontend.engview.column_ers'), },
                 children: [
                     {
-                        headerName: "Avail", colId: "ers-avail", context: {displayName: "ERS Available", },
+                        headerName: "Avail", colId: "ers-avail", context: {displayName: t("frontend.engview.display_ers_available"), },
                         field: "ers-info.ers-percent", flex: 3.33,
                         cellRenderer: (params) => {
                             const driverInfo = params.data;
@@ -1511,7 +1512,7 @@ class EngViewRaceTable {
                         }, sortable: false, cellClass: 'ag-cell-single-line',
                     },
                     {
-                        headerName: "Deploy", colId: "ers-deployed", context: {displayName: "ERS Deployed", },
+                        headerName: "Deploy", colId: "ers-deployed", context: {displayName: t("frontend.engview.display_ers_deployed"), },
                         field: "ers-info.ers-deployed-this-lap", flex: 3.33,
                         cellRenderer: (params) => {
                             const driverInfo = params.data;
@@ -1524,7 +1525,7 @@ class EngViewRaceTable {
                         }, sortable: false, cellClass: 'ag-cell-single-line',
                     },
                     {
-                        headerName: "Mode", colId: "ers-mode", context: {displayName: "ERS Mode", },
+                        headerName: "Mode", colId: "ers-mode", context: {displayName: t("frontend.engview.display_ers_mode"), },
                         field: "ers-info.ers-mode", flex: 3.33,
                         cellRenderer: (params) => {
                             const driverInfo = params.data;
@@ -1539,12 +1540,12 @@ class EngViewRaceTable {
                 ],
             },
             {
-                headerName: 'Fuel',
+                headerName: t('frontend.engview.column_fuel'),
                 colId: 'fuel',
-                context: {displayName: 'Fuel', },
+                context: {displayName: t('frontend.engview.column_fuel'), },
                 children: [
                     {
-                        headerName: "Total", colId: "fuel-in-tank", context: {displayName: "Fuel In Tank", },
+                        headerName: "Total", colId: "fuel-in-tank", context: {displayName: t("frontend.engview.display_fuel_in_tank"), },
                         field: "fuel-info.fuel-in-tank", flex: 3.33,
                         cellRenderer: (params) => {
                             const driverInfo = params.data;
@@ -1560,7 +1561,7 @@ class EngViewRaceTable {
                         }, sortable: false, cellClass: 'ag-cell-single-line',
                     },
                     {
-                        headerName: "Per Lap", colId: "fuel-per-lap", context: {displayName: "Fuel Per Lap", },
+                        headerName: "Per Lap", colId: "fuel-per-lap", context: {displayName: t("frontend.engview.display_fuel_per_lap"), },
                         field: "fuel-info.curr-fuel-rate", flex: 3.33,
                         cellRenderer: (params) => {
                             const driverInfo = params.data;
@@ -1576,7 +1577,7 @@ class EngViewRaceTable {
                         }, sortable: false, cellClass: 'ag-cell-single-line',
                     },
                     {
-                        headerName: "Est", colId: "estimated-laps", context: {displayName: "Estimated Laps", },
+                        headerName: "Est", colId: "estimated-laps", context: {displayName: t("frontend.engview.display_est_laps"), },
                         field: "fuel-info.surplus-laps-png", flex: 3.33,
                         cellRenderer: (params) => {
                             const driverInfo = params.data;
@@ -1594,48 +1595,48 @@ class EngViewRaceTable {
                 ],
             },
             {
-                headerName: 'Damage',
+                headerName: t('frontend.engview.column_damage'),
                 colId: 'damage',
-                context: {displayName: 'Damage', },
+                context: {displayName: t('frontend.engview.column_damage'), },
                 children: [
                     {
-                        headerName: "FLW", colId: "fl-wing-damage", context: {displayName: "Front Left Wing", },
+                        headerName: "FLW", colId: "fl-wing-damage", context: {displayName: t("frontend.engview.display_damage_flw"), },
                         field: "damage-info.fl-wing-damage", flex: 3.33,
                         cellRenderer: this.createDamageCellRenderer("fl-wing-damage"),
                         sortable: false, cellClass: 'ag-cell-single-line',
                     },
                     {
-                        headerName: "FRW", colId: "fr-wing-damage", context: {displayName: "Front Right Wing",},
+                        headerName: "FRW", colId: "fr-wing-damage", context: {displayName: t("frontend.engview.display_damage_frw"),},
                         field: "damage-info.fr-wing-damage", flex: 3.33,
                         cellRenderer: this.createDamageCellRenderer("fr-wing-damage"),
                         sortable: false, cellClass: 'ag-cell-single-line',
                     },
                     {
-                        headerName: "RW", colId: "rear-wing-damage", context: {displayName: "Rear Wing", },
+                        headerName: "RW", colId: "rear-wing-damage", context: {displayName: t("frontend.engview.display_damage_rw"), },
                         field: "damage-info.rear-wing-damage", flex: 3.33,
                         cellRenderer: this.createDamageCellRenderer("rear-wing-damage"),
                         sortable: false, cellClass: 'ag-cell-single-line',
                     },
                     {
-                        headerName: "Floor", colId: "floor-damage", context: {displayName: "Floor", },
+                        headerName: t("frontend.engview.sub_floor"), colId: "floor-damage", context: {displayName: t("frontend.engview.sub_floor"), },
                         field: "damage-info.floor-damage", flex: 3.33,
                         cellRenderer: this.createDamageCellRenderer("floor-damage"),
                         sortable: false, cellClass: 'ag-cell-single-line',
                     },
                     {
-                        headerName: "DF", colId: "diffuser-damage", context: {displayName: "Diffuser", },
+                        headerName: "DF", colId: "diffuser-damage", context: {displayName: t("frontend.engview.display_damage_diff"), },
                         field: "damage-info.diffuser-damage", flex: 3.33,
                         cellRenderer: this.createDamageCellRenderer("diffuser-damage"),
                         sortable: false, cellClass: 'ag-cell-single-line',
                     },
                     {
-                        headerName: "SP", colId: "sidepod-damage", context: {displayName: "Sidepod", },
+                        headerName: "SP", colId: "sidepod-damage", context: {displayName: t("frontend.engview.display_damage_sp"), },
                         field: "damage-info.sidepod-damage", flex: 3.33,
                         cellRenderer: this.createDamageCellRenderer("sidepod-damage"),
                         sortable: false, cellClass: 'ag-cell-single-line',
                     },
                     {
-                        headerName: "Wing", colId: "wing-damage-agg", context: {displayName: "Wing Damage (FL/FR)"},
+                        headerName: "Wing", colId: "wing-damage-agg", context: {displayName: t("frontend.engview.display_wing_damage")},
                         field: "damage-info", flex: 5,
                         hide: true,
                         cellRenderer: this.createWingDamageCellRenderer(),
@@ -1667,14 +1668,14 @@ class EngViewRaceTable {
             const driverInfo = params.data;
             const position = driverInfo.position;
             let statusClass = '';
-            let statusText = 'DRS';
+            let statusText = t('frontend.engview.drs');
             const dnfStatus = driverInfo["driver-info"]["dnf-status"];
-            if (dnfStatus === 'DNF' || dnfStatus === 'DSQ') {
+            if (dnfStatus === t('frontend.engview.dnf') || dnfStatus === t('frontend.engview.dsq')) {
                 statusText = dnfStatus;
                 statusClass = 'driver-dnf';
             }
             else if (driverInfo["driver-info"]["is-pitting"]) {
-                statusText = 'PIT';
+                statusText = t('frontend.engview.pit_status');
                 statusClass = 'driver-pitting';
             }
             else if (driverInfo["driver-info"]["drs-activated"]) {
@@ -2430,7 +2431,7 @@ class EngViewRaceStatus {
         const track = data["circuit"]
         const event = data["event-type"];
         if (track === "---" || event === "---") {
-            return "Race Status";
+            return t("frontend.engview.race_status");
         }
 
         return `${replaceRevSuffix(track)} - ${event}`;

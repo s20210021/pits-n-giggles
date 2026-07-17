@@ -1,5 +1,7 @@
 // F1 Tyre Selection Interface JavaScript
 
+const t = (k, p) => window.__i18n.tr(k, p);
+
 class F1TyreManager {
   constructor(containerElement, iconCache) {
     // Validate required parameters
